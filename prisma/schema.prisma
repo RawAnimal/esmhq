@@ -1,0 +1,146 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Site {
+  id               Int            @id @default(autoincrement())
+  startDate        DateTime       @default(now())
+  streetNumberName String         @db.VarChar(255)
+  cityTown         String         @db.VarChar(50)
+  province         Province       @default(ON)
+  postal           String         @db.VarChar(9)
+  locID            String?        @db.VarChar(10)
+  assignment       Assignment     @default(EMERGENCY)
+  assignmentType   AssignmentType @default(FIRE)
+  withVehicle      Boolean        @default(true)
+  details          String         @db.Text
+  estHours         Int            @default(168)
+  createdAt        DateTime?      @default(now())
+  updatedAt        DateTime?      @updatedAt
+  endDate          DateTime?
+  fileNumber       String?        @db.VarChar(10)
+  schedulerURL     String?        @db.VarChar(255)
+  clName           String         @db.VarChar(100)
+  clCompany        String         @db.VarChar(100)
+  clPhone          String         @db.VarChar(15)
+  clEmail          String         @db.VarChar(255)
+  clAddress        String?        @db.VarChar(255)
+  clSSFNs          String?        @db.VarChar(100)
+  clPrefix         String?        @db.VarChar(20)
+  prName           String?        @db.VarChar(100)
+  prCompany        String?        @db.VarChar(100)
+  prPhone          String?        @db.VarChar(15)
+  prEmail          String?        @db.VarChar(255)
+  prAddress        String?        @db.VarChar(255)
+  prSSFNs          String?        @db.VarChar(100)
+  latitude         String?        @db.VarChar(12)
+  longitude        String?        @db.VarChar(12)
+  tempManager      String?        @db.VarChar(15)
+  assignedToUserId String?        @db.VarChar(255)
+  assignedToUser   User?          @relation(fields: [assignedToUserId], references: [id])
+  status           Boolean        @default(true)
+
+  @@index([assignedToUserId])
+}
+
+enum Province {
+  AB
+  BC
+  MB
+  NB
+  NL
+  NT
+  NS
+  NU
+  ON
+  PE
+  QC
+  SK
+  YT
+}
+
+enum Assignment {
+  EMERGENCY
+  HIGH_RISK
+  LABOR_DISPUTE
+  LOSS_PREVENTION
+  STATIC_SERVICE
+}
+
+enum AssignmentType {
+  ACCESS_CONTROL
+  ADMIN_CLERKING
+  FIRE
+  FLOOD
+  TERMINATION
+  THEFT
+  VANDALISM
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model User {
+  id             String    @id @default(cuid())
+  firstName      String?   @db.VarChar(25)
+  lastName       String?   @db.VarChar(25)
+  //name           String?   @db.VarChar(50)
+  title          String?   @db.VarChar(50)
+  email          String?   @unique @db.VarChar(255)
+  phone          String?   @db.VarChar(15)
+  image          String?
+  role           Role      @default(WEBUSER)
+  emailVerified  DateTime?
+  hashedPassword String?
+  accounts       Account[]
+  sessions       Session[]
+  assignedSites  Site[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+enum Role {
+  WEBUSER
+  WEBADMIN
+  ADMIN
+  EXEC
+}
