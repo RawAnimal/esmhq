@@ -5,88 +5,75 @@ import {
   useMaterialReactTable,
   type MRT_ColumnDef,
 } from 'material-react-table';
-import { citiesList, data, type Person, usStateList } from './makeData';
+import SiteStatusBadge from './SiteStatusBadge';
+
+//If using TypeScript, define the shape of your data (optional, but recommended)
+interface Site {
+  // id: number;
+  startDate: Date;
+  streetNumberName: string;
+  cityTown: string;
+  province: string;
+  locID: string;
+  // estHours: number;
+  // schedulerURL: string;
+  clName: string;
+  clCompany: string;
+  status: boolean;
+}
 
 const SitesTable = () => {
-  const [data2, setData2] = useState(null);
+  const [data, setData] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('/api/sites')
       .then((res) => res.json())
       .then((data) => {
-        setData2(data);
+        setData(data);
         setLoading(false);
       });
   }, []);
-
-  const columns = useMemo<MRT_ColumnDef<Person>[]>(
+  console.log(data);
+  const columns = useMemo<MRT_ColumnDef<Site>[]>(
     () => [
       {
         header: 'Status',
-        accessorFn: (originalRow) => (originalRow.isActive ? 'true' : 'false'), //must be strings
-        id: 'isActive',
+        accessorKey: 'status',
+        accessorFn: (originalRow) => (originalRow.status ? 'true' : 'false'), //must be strings
+        id: 'status',
         filterVariant: 'checkbox',
         muiFilterCheckboxProps: {
-          checked: true,
+          defaultChecked: true,
         },
-        Cell: ({ cell }) =>
-          cell.getValue() === 'true' ? 'Active' : 'Inactive',
-        size: 170,
+        Cell: ({ cell, row }) => (
+          // cell.getValue() === 'true' ? 'Active' : 'Inactive',
+          <SiteStatusBadge status={row.original.status} />
+        ),
       },
       {
-        accessorKey: 'name',
-        header: 'Name',
-        filterVariant: 'text', // default
-        size: 200,
+        accessorFn: (row) =>
+          `${row.streetNumberName}, ${row.cityTown}, ${row.province}`,
+        id: 'address',
+        header: 'Address',
       },
       {
-        accessorKey: 'salary',
-        header: 'Salary',
-        Cell: ({ cell }) =>
-          cell.getValue<number>().toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'USD',
-          }),
-        filterVariant: 'range-slider',
-        filterFn: 'betweenInclusive', // default (or between)
-        muiFilterSliderProps: {
-          marks: true,
-          max: 200_000, //custom max (as opposed to faceted max)
-          min: 30_000, //custom min (as opposed to faceted min)
-          step: 10_000,
-          valueLabelFormat: (value) =>
-            value.toLocaleString('en-US', {
-              style: 'currency',
-              currency: 'USD',
-            }),
-        },
+        accessorKey: 'clName',
+        header: 'Client',
       },
       {
-        accessorFn: (originalRow) => new Date(originalRow.hireDate), //convert to date for sorting and filtering
-        id: 'hireDate',
-        header: 'Hire Date',
-        filterVariant: 'date-range',
-        Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(), // convert back to string for display
+        accessorFn: (row) =>
+          `${row.clCompany} ${row.locID ? ' - ' + row.locID : ''}`,
+        id: 'company',
+        header: 'Company',
       },
       {
-        accessorKey: 'age',
-        header: 'Age',
-        filterVariant: 'range',
-        filterFn: 'between',
-        size: 80,
-      },
-      {
-        accessorKey: 'city',
-        header: 'City',
-        filterVariant: 'select',
-        filterSelectOptions: citiesList, //custom options list (as opposed to faceted list)
-      },
-      {
-        accessorKey: 'state',
-        header: 'State',
-        filterVariant: 'multi-select',
-        filterSelectOptions: usStateList, //custom options list (as opposed to faceted list)
+        accessorFn: (row) => new Date(row.startDate), //convert to Date for sorting and filtering
+        id: 'startDate',
+        header: 'Start Date',
+        sortingFn: 'datetime',
+        enableColumnFilter: false,
+        Cell: ({ cell }) => cell.getValue<Date>()?.toJSON().slice(0, 10),
       },
     ],
     []
@@ -95,15 +82,24 @@ const SitesTable = () => {
   const table = useMaterialReactTable({
     columns,
     data,
-    initialState: { showColumnFilters: true },
+    initialState: {
+      showColumnFilters: false,
+      columnFilters: [{ id: 'status', value: true }],
+      sorting: [{ id: 'clCompany', desc: false }],
+      pagination: { pageIndex: 0, pageSize: 50 },
+      density: 'compact',
+      expanded: true,
+    },
   });
 
   if (isLoading) return <p>Loading...</p>;
   if (!data) return <p>No profile data</p>;
 
-  console.log(data2);
-
-  return <MaterialReactTable table={table} />;
+  return (
+    <>
+      <MaterialReactTable table={table} />
+    </>
+  );
 };
 
 export default SitesTable;
