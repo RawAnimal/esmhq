@@ -1,5 +1,5 @@
 'use client';
-import { useMemo } from 'react';
+import { useMemo, useEffect, useState } from 'react';
 import {
   MaterialReactTable,
   useMaterialReactTable,
@@ -8,6 +8,18 @@ import {
 import { citiesList, data, type Person, usStateList } from './makeData';
 
 const SitesTable = () => {
+  const [data2, setData2] = useState(null);
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/sites')
+      .then((res) => res.json())
+      .then((data) => {
+        setData2(data);
+        setLoading(false);
+      });
+  }, []);
+
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
       {
@@ -85,6 +97,11 @@ const SitesTable = () => {
     data,
     initialState: { showColumnFilters: true },
   });
+
+  if (isLoading) return <p>Loading...</p>;
+  if (!data) return <p>No profile data</p>;
+
+  console.log(data2);
 
   return <MaterialReactTable table={table} />;
 };
