@@ -6,17 +6,19 @@ import {
   type MRT_ColumnDef,
 } from 'material-react-table';
 import SiteStatusBadge from './SiteStatusBadge';
+import InsertLinkIcon from '@mui/icons-material/InsertLink';
+import { Link } from '@mui/material';
+import IconTT from '@/app/icons/IconTT';
 
 //If using TypeScript, define the shape of your data (optional, but recommended)
 interface Site {
-  // id: number;
   startDate: Date;
   streetNumberName: string;
   cityTown: string;
   province: string;
   locID: string;
-  // estHours: number;
-  // schedulerURL: string;
+  estHours: number;
+  schedulerURL: string;
   clName: string;
   clCompany: string;
   status: boolean;
@@ -37,20 +39,6 @@ const SitesTable = () => {
   console.log(data);
   const columns = useMemo<MRT_ColumnDef<Site>[]>(
     () => [
-      {
-        header: 'Status',
-        accessorKey: 'status',
-        accessorFn: (originalRow) => (originalRow.status ? 'true' : 'false'), //must be strings
-        id: 'status',
-        filterVariant: 'checkbox',
-        muiFilterCheckboxProps: {
-          defaultChecked: true,
-        },
-        Cell: ({ cell, row }) => (
-          // cell.getValue() === 'true' ? 'Active' : 'Inactive',
-          <SiteStatusBadge status={row.original.status} />
-        ),
-      },
       {
         accessorFn: (row) =>
           `${row.streetNumberName}, ${row.cityTown}, ${row.province}`,
@@ -74,6 +62,46 @@ const SitesTable = () => {
         sortingFn: 'datetime',
         enableColumnFilter: false,
         Cell: ({ cell }) => cell.getValue<Date>()?.toJSON().slice(0, 10),
+        maxSize: 100,
+      },
+      {
+        accessorKey: 'estHours',
+        header: 'Est Hrs',
+        enableColumnFilter: false,
+        maxSize: 100,
+      },
+      {
+        accessorFn: (row) => `${row.schedulerURL}`,
+        Header: ({ column }) => <IconTT fSize="small" />,
+        header: 'scheduleURL',
+        enableColumnFilter: false,
+        enableSorting: false,
+        Cell: ({ row }) => (
+          <div>
+            {row.original.schedulerURL ? (
+              <Link target="_blank" href={row.original.schedulerURL}>
+                <InsertLinkIcon />
+              </Link>
+            ) : (
+              ''
+            )}
+          </div>
+        ),
+        maxSize: 75,
+      },
+      {
+        header: 'Status',
+        accessorKey: 'status',
+        accessorFn: (originalRow) => (originalRow.status ? 'true' : 'false'), //must be strings
+        id: 'status',
+        filterVariant: 'checkbox',
+        muiFilterCheckboxProps: {
+          defaultChecked: true,
+        },
+        Cell: ({ cell, row }) => (
+          <SiteStatusBadge status={row.original.status} />
+        ),
+        maxSize: 125,
       },
     ],
     []
