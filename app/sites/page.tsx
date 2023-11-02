@@ -1,5 +1,5 @@
 import React from 'react';
-import SitesTable from '@/app/_components/SitesTable';
+import SitesTable from '@/app/sites/_components/SitesTable';
 
 const SitesPage = () => {
   return (
