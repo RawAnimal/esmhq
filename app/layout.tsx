@@ -25,7 +25,7 @@ export default function RootLayout({
       <body className={inter.variable}>
         <QueryClientProvider>
           <LocaleProvider>
-            <main className="p-5">{children}</main>
+            <main>{children}</main>
           </LocaleProvider>
         </QueryClientProvider>
       </body>
