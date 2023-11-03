@@ -1,13 +1,15 @@
 import React from 'react';
 import SitesTable from '@/app/sites/_components/SitesTable';
-import SiteStatusBadge from './_components/SiteStatusBadge';
 import NavBar from '../_components/NavBar';
+import { Container } from '@mui/material';
 
 const SitesPage = () => {
   return (
     <>
       <NavBar />
-      <SitesTable />
+      <Container sx={{ pt: 2 }}>
+        <SitesTable />
+      </Container>
     </>
   );
 };
