@@ -12,10 +12,9 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import IconESMSheild from '@/app/icons/IconESMSheild';
 import Link from 'next/link';
 
-// const pages = ['Products', 'Pricing', 'Blog'];
 const pages = [{ title: 'Sites', href: '/sites' }];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -42,25 +41,15 @@ function NavBar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
+            <IconESMSheild fSize="large" />
+          </Box>
+          <Box
             sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              flexGrow: 1,
+              display: { xs: 'flex', md: 'none' },
             }}
           >
-            ESMhq
-          </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -98,24 +87,15 @@ function NavBar() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
+          <Box
             sx={{
-              mr: 2,
               display: { xs: 'flex', md: 'none' },
+              mr: 1,
               flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
             }}
           >
-            ESMhq
-          </Typography>
+            <IconESMSheild fSize="large" />
+          </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
