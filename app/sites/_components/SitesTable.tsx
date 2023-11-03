@@ -80,7 +80,12 @@ const SitesTable = () => {
           <div>
             {row.original.schedulerURL ? (
               <Link target="_blank" href={row.original.schedulerURL}>
-                <InsertLinkIcon />
+                <InsertLinkIcon
+                  sx={{
+                    ':hover': { color: 'orange' },
+                    color: 'black',
+                  }}
+                />
               </Link>
             ) : (
               ''
