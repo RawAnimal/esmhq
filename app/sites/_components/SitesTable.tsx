@@ -1,14 +1,22 @@
 'use client';
 import { useMemo, useEffect, useState } from 'react';
+import Link from 'next/link';
 import {
   MaterialReactTable,
   useMaterialReactTable,
+  MRT_ShowHideColumnsButton,
+  MRT_ToggleFullScreenButton,
+  MRT_ToggleGlobalFilterButton,
+  MRT_ToggleDensePaddingButton,
+  MRT_ToggleFiltersButton,
   type MRT_ColumnDef,
 } from 'material-react-table';
 import SiteStatusBadge from './SiteStatusBadge';
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
-import { Link } from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Typography, IconButton, Tooltip } from '@mui/material';
 import IconTT from '@/app/icons/IconTT';
+import { PrintSharp } from '@mui/icons-material';
 
 //If using TypeScript, define the shape of your data (optional, but recommended)
 interface Site {
@@ -36,7 +44,6 @@ const SitesTable = () => {
         setLoading(false);
       });
   }, []);
-  console.log(data);
   const columns = useMemo<MRT_ColumnDef<Site>[]>(
     () => [
       {
@@ -72,8 +79,12 @@ const SitesTable = () => {
       },
       {
         accessorFn: (row) => `${row.schedulerURL}`,
-        Header: ({ column }) => <IconTT fSize="small" bgFill="#757575" />,
-        header: 'scheduleURL',
+        Header: ({ column }) => (
+          <Tooltip title="Tracktik">
+            <IconTT fSize="small" bgFill="#757575" />
+          </Tooltip>
+        ),
+        header: 'Tracktik',
         enableColumnFilter: false,
         enableSorting: false,
         Cell: ({ row }) => (
@@ -115,6 +126,34 @@ const SitesTable = () => {
   const table = useMaterialReactTable({
     columns,
     data,
+    muiPaginationProps: {
+      rowsPerPageOptions: [25, 50, 75, 100],
+    },
+    renderTopToolbarCustomActions: () => (
+      <Typography variant="h6">ESM Sites</Typography>
+    ),
+    renderToolbarInternalActions: ({ table }) => (
+      <>
+        {/* add your own custom print button or something */}
+        <MRT_ToggleGlobalFilterButton table={table} />
+        <MRT_ToggleDensePaddingButton table={table} />
+        <MRT_ToggleFiltersButton table={table} />
+        <MRT_ShowHideColumnsButton table={table} />
+        <MRT_ToggleFullScreenButton table={table} />
+        <Tooltip title="Print">
+          <IconButton onClick={() => window.print()}>
+            <PrintSharp />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Add New Site">
+          <Link href="/sites/new">
+            <IconButton>
+              <AddCircleIcon />
+            </IconButton>
+          </Link>
+        </Tooltip>
+      </>
+    ),
     initialState: {
       showColumnFilters: false,
       columnFilters: [{ id: 'status', value: true }],
