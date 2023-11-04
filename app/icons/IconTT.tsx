@@ -1,11 +1,17 @@
 import SvgIcon from '@mui/material/SvgIcon';
 
-const IconTT = ({ fSize }: { fSize: 'small' | 'medium' | 'large' }) => {
+const IconTT = ({
+  fSize,
+  bgFill,
+}: {
+  fSize: 'small' | 'medium' | 'large';
+  bgFill: string;
+}) => {
   return (
     <SvgIcon fontSize={fSize}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        fill="currentColor"
+        fill={bgFill}
         viewBox="0 0 24 24"
       >
         <path
