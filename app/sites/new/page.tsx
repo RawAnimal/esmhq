@@ -2,7 +2,14 @@
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import NavBar from '@/app/_components/NavBar';
-import { Box, Button, Container, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  Typography,
+  Alert,
+  AlertTitle,
+} from '@mui/material';
 import {
   TextFieldElement,
   DateTimePickerElement,
@@ -16,6 +23,7 @@ import { provinces } from '@/app/utilities/ProvinceList';
 import { assignments } from '@/app/utilities/AssignmentList';
 import { assignmentTypes } from '@/app/utilities/AssignmentTypeList';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 interface NewSiteForm {
   startDate: Dayjs;
@@ -46,6 +54,7 @@ interface NewSiteForm {
 
 const NewSitePage = () => {
   const router = useRouter();
+  const [error, setError] = useState('');
   const { control, handleSubmit } = useForm<NewSiteForm>({
     defaultValues: {
       startDate: dayjs(new Date()),
@@ -59,10 +68,26 @@ const NewSitePage = () => {
     <>
       <NavBar />
       <Container sx={{ pt: 2, flexGrow: 1 }}>
+        {error && (
+          <Alert
+            severity="error"
+            sx={{ mb: 2 }}
+            onClose={() => {
+              setError('');
+            }}
+            variant="outlined"
+          >
+            {error}
+          </Alert>
+        )}
         <form
           onSubmit={handleSubmit(async (data) => {
-            await axios.post('/api/sites', data);
-            router.push('/sites');
+            try {
+              await axios.post('/api/sites', data);
+              router.push('/sites');
+            } catch (error) {
+              setError('An enxpected error occurred.');
+            }
           })}
         >
           <Grid container spacing={{ xs: 2 }}>
