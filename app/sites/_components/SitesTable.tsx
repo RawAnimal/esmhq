@@ -72,7 +72,7 @@ const SitesTable = () => {
       },
       {
         accessorFn: (row) => `${row.schedulerURL}`,
-        Header: ({ column }) => <IconTT fSize="small" />,
+        Header: ({ column }) => <IconTT fSize="small" bgFill="#757575" />,
         header: 'scheduleURL',
         enableColumnFilter: false,
         enableSorting: false,
