@@ -1,4 +1,6 @@
 import { string, z } from 'zod';
+import { Dayjs } from 'dayjs';
+import { error } from 'console';
 
 const postalRegEx = /[A-Za-z]\d[A-Za-z]\s\d[A-Za-z]\d/i;
 const phoneRegEx = /\d{3}\s\d{3}[-‑]\d{4}/;
@@ -30,12 +32,12 @@ export const userSchema = z.object({
 // });
 
 export const siteSchema = z.object({
-  startDate: z.coerce.date(),
+  //startDate: z.coerce.date(),
   streetNumberName: z
     .string()
     .min(3, '>= 3 characters')
     .max(255, '<= 255 characters'),
-  cityTown: z.string().min(1, '>= 2 characters').max(50, '<= 50 characters'),
+  cityTown: z.string().min(3, '>= 3 characters').max(50, '<= 50 characters'),
   province: z
     .enum([
       'AB',
