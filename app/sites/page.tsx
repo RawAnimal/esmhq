@@ -8,12 +8,7 @@ const SitesPage = () => {
   return (
     <>
       <NavBar />
-      <Container>
-        <Box sx={{ p: 2 }}>
-          <Button variant="contained">
-            <Link href="/sites/new">New Site</Link>
-          </Button>
-        </Box>
+      <Container sx={{ p: 2 }}>
         <SitesTable />
       </Container>
     </>
