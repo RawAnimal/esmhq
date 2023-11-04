@@ -1,6 +1,8 @@
 'use client';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import NavBar from '@/app/_components/NavBar';
 import {
   Box,
@@ -8,7 +10,7 @@ import {
   Container,
   Typography,
   Alert,
-  AlertTitle,
+  CircularProgress,
 } from '@mui/material';
 import {
   TextFieldElement,
@@ -24,38 +26,20 @@ import { assignments } from '@/app/utilities/AssignmentList';
 import { assignmentTypes } from '@/app/utilities/AssignmentTypeList';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { siteSchema } from '@/app/utilities/validationSchemas';
 
-interface NewSiteForm {
+type SiteForm = z.infer<typeof siteSchema>;
+interface NewSiteForm extends SiteForm {
   startDate: Dayjs;
-  streetNumberName: string;
-  cityTown: string;
-  province: string;
-  postal: string;
-  assignment: string;
-  assignmentType: string;
-  withVehicle: boolean;
-  details: string;
-  estHours: number;
-  fileNumber: string;
-  schedulerURL: string;
-  clName: string;
-  clCompany: string;
-  clPhone: string;
-  clEmail: string;
-  clAddress: string;
-  clSSFNs: string;
-  prName: string;
-  prCompany: string;
-  prPhone: string;
-  prEmail: string;
-  prAddress: string;
-  prSSFNs: string;
 }
 
 const NewSitePage = () => {
   const router = useRouter();
   const [error, setError] = useState('');
-  const { control, handleSubmit } = useForm<NewSiteForm>({
+  const [isSubmitting, setSubmitting] = useState(false);
+  const { control, handleSubmit, formState } = useForm<NewSiteForm>({
+    mode: 'onChange',
+    resolver: zodResolver(siteSchema),
     defaultValues: {
       startDate: dayjs(new Date()),
       province: 'ON',
@@ -84,8 +68,10 @@ const NewSitePage = () => {
           onSubmit={handleSubmit(async (data) => {
             try {
               await axios.post('/api/sites', data);
+              setSubmitting(true);
               router.push('/sites');
             } catch (error) {
+              setSubmitting(false);
               setError('An enxpected error occurred.');
             }
           })}
@@ -390,8 +376,15 @@ const NewSitePage = () => {
                   height: 112,
                 }}
               >
-                <Button variant={'contained'} type="submit">
-                  Add New Site
+                <Button
+                  disabled={!formState.isValid || isSubmitting}
+                  variant={'contained'}
+                  type="submit"
+                >
+                  Add New Site{' '}
+                  {isSubmitting && (
+                    <CircularProgress size={20} sx={{ ml: 1 }} />
+                  )}
                 </Button>
               </Box>
             </Grid>
