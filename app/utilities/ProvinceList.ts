@@ -1,0 +1,15 @@
+export const provinces = [
+  { id: 'AB', label: 'AB' },
+  { id: 'BC', label: 'BC' },
+  { id: 'MB', label: 'MB' },
+  { id: 'NB', label: 'NB' },
+  { id: 'NL', label: 'NL' },
+  { id: 'NT', label: 'NT' },
+  { id: 'NS', label: 'NS' },
+  { id: 'NU', label: 'NU' },
+  { id: 'ON', label: 'ON' },
+  { id: 'PE', label: 'PE' },
+  { id: 'QC', label: 'QC' },
+  { id: 'SK', label: 'SK' },
+  { id: 'YT', label: 'YT' },
+];
