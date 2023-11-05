@@ -14,12 +14,13 @@ import {
 import SiteStatusBadge from './SiteStatusBadge';
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Typography, IconButton, Tooltip } from '@mui/material';
+import { Typography, IconButton, Tooltip, Alert } from '@mui/material';
 import IconTT from '@/app/icons/IconTT';
 import { PrintSharp } from '@mui/icons-material';
 
 //If using TypeScript, define the shape of your data (optional, but recommended)
 interface Site {
+  id: number;
   startDate: Date;
   streetNumberName: string;
   cityTown: string;
@@ -35,6 +36,7 @@ interface Site {
 const SitesTable = () => {
   const [data, setData] = useState([]);
   const [isLoading, setLoading] = useState(true);
+  const [isError, setError] = useState(false);
 
   useEffect(() => {
     fetch('/api/sites')
@@ -51,6 +53,12 @@ const SitesTable = () => {
           `${row.streetNumberName}, ${row.cityTown}, ${row.province}`,
         id: 'address',
         header: 'Address',
+        Cell: ({ cell, row }) => (
+          <Link href={`/sites/${row.original.id}`}>
+            {row.original.streetNumberName}, {row.original.cityTown},{' '}
+            {row.original.province}
+          </Link>
+        ),
       },
       {
         accessorKey: 'clName',
@@ -59,7 +67,7 @@ const SitesTable = () => {
       {
         accessorFn: (row) =>
           `${row.clCompany} ${row.locID ? ' - ' + row.locID : ''}`,
-        id: 'company',
+        id: 'clCompany',
         header: 'Company',
       },
       {
@@ -79,11 +87,7 @@ const SitesTable = () => {
       },
       {
         accessorFn: (row) => `${row.schedulerURL}`,
-        Header: ({ column }) => (
-          <Tooltip title="Tracktik">
-            <IconTT fSize="small" bgFill="#757575" />
-          </Tooltip>
-        ),
+        Header: () => <IconTT fSize="small" bgFill="#757575" />,
         header: 'Tracktik',
         enableColumnFilter: false,
         enableSorting: false,
@@ -165,10 +169,22 @@ const SitesTable = () => {
   });
 
   if (isLoading) return <p>Loading...</p>;
-  if (!data) return <p>No profile data</p>;
+  if (!data) setError(true);
 
   return (
     <>
+      {isError && (
+        <Alert
+          severity="error"
+          sx={{ mb: 2 }}
+          onClose={() => {
+            setError(false);
+          }}
+          variant="outlined"
+        >
+          There are issues reaching the database. Please try again.
+        </Alert>
+      )}
       <MaterialReactTable table={table} />
     </>
   );
