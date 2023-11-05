@@ -1,8 +1,6 @@
-import React from 'react';
 import SitesTable from '@/app/sites/_components/SitesTable';
+import { Container } from '@mui/material';
 import NavBar from '../_components/NavBar';
-import { Box, Button, Container } from '@mui/material';
-import Link from 'next/link';
 
 const SitesPage = () => {
   return (
