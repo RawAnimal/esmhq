@@ -6,6 +6,8 @@ import Grid from '@mui/material/Unstable_Grid2';
 import prettify from '@/app/utilities/Prettify';
 import getTel from '@/app/utilities/GetTel';
 import Link from 'next/link';
+import EditIcon from '@mui/icons-material/Edit';
+import BackButton from '@/app/_components/BackButton';
 
 interface Props {
   params: {
@@ -23,15 +25,6 @@ const SiteDetailsPage = async ({ params }: Props) => {
   });
 
   if (!site) notFound();
-
-  //   const getTel = (str: string) => {
-  //     const onlyNumbers = str.replace(/\D/g, '');
-  //     return `tel:${onlyNumbers}`;
-  //   };
-
-  //   const getMailto = (email: string) => {
-  //     return <a href={`mailto:${email}`}>{email}</a>;
-  //   };
 
   return (
     <>
@@ -524,17 +517,41 @@ const SiteDetailsPage = async ({ params }: Props) => {
           </Grid>
 
           <Grid
+            container
             xs={12}
             sm={12}
             md={3}
             lg={2}
             xl={2}
             order={{ xs: 1, sm: 1, md: 2 }}
+            flexDirection={{ xs: 'row', md: 'column' }}
           >
-            <Box flex={'flexGrow'} p={1}>
-              <Button fullWidth variant="contained" color="primary">
-                Edit
-              </Button>
+            <Box
+              sx={{ flex: { xs: '1', md: '0' } }}
+              p={0}
+              mb={2}
+              marginLeft={2}
+              marginRight={2}
+            >
+              <BackButton />
+            </Box>
+            <Box
+              sx={{ flex: { xs: '1', md: '0' } }}
+              p={0}
+              mb={2}
+              marginLeft={2}
+              marginRight={2}
+            >
+              <Link href={`/sites/${site.id}/edit`} passHref>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  startIcon={<EditIcon />}
+                >
+                  Edit
+                </Button>
+              </Link>
             </Box>
           </Grid>
         </Grid>
