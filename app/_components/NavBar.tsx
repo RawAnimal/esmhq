@@ -45,10 +45,12 @@ function NavBar() {
             <Link href={'/'}>
               <IconESMSheild
                 fSize="large"
-                shieldFill="#db792d"
-                crossFill="#646569"
+                //shieldFill="#db792d"
+                //crossFill="#646569"
+                shieldFill="#FFFFFF"
+                crossFill="#FFFFFF"
                 strokeColor="#FFFFFF"
-                strokeOpacity="0.2"
+                strokeOpacity="0.0"
               />
             </Link>
           </Box>
@@ -106,10 +108,12 @@ function NavBar() {
             <Link href={'/'}>
               <IconESMSheild
                 fSize="large"
-                shieldFill="#db792d"
-                crossFill="#646569"
+                //shieldFill="#db792d"
+                //crossFill="#646569"
+                shieldFill="#FFFFFF"
+                crossFill="#FFFFFF"
                 strokeColor="#FFFFFF"
-                strokeOpacity="0.2"
+                strokeOpacity="0.0"
               />
             </Link>
           </Box>
