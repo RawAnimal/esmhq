@@ -15,3 +15,23 @@
 body {
   color: rgb(var(--foreground-rgb));
 } */
+.MuiToolbar-root button a:link {
+  color: white !important;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.MuiToolbar-root button a:visited {
+  color: white !important;
+  font-weight: bold;
+}
+
+/* button a:hover {
+  color: white !important;
+  font-weight: bold;
+}
+
+button a:active {
+  color: white !important;
+  font-weight: bold;
+} */
