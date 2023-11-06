@@ -41,14 +41,16 @@ function NavBar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
-            <IconESMSheild
-              fSize="large"
-              shieldFill="#db792d"
-              crossFill="#646569"
-              strokeColor="#FFFFFF"
-              strokeOpacity="0.2"
-            />
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, mt: 1 }}>
+            <Link href={'/'}>
+              <IconESMSheild
+                fSize="large"
+                shieldFill="#db792d"
+                crossFill="#646569"
+                strokeColor="#FFFFFF"
+                strokeOpacity="0.2"
+              />
+            </Link>
           </Box>
           <Box
             sx={{
@@ -97,16 +99,19 @@ function NavBar() {
             sx={{
               display: { xs: 'flex', md: 'none' },
               mr: 1,
+              mt: 1,
               flexGrow: 1,
             }}
           >
-            <IconESMSheild
-              fSize="large"
-              shieldFill="#db792d"
-              crossFill="#646569"
-              strokeColor="#FFFFFF"
-              strokeOpacity="0.2"
-            />
+            <Link href={'/'}>
+              <IconESMSheild
+                fSize="large"
+                shieldFill="#db792d"
+                crossFill="#646569"
+                strokeColor="#FFFFFF"
+                strokeOpacity="0.2"
+              />
+            </Link>
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
