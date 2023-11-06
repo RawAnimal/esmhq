@@ -134,7 +134,7 @@ const SitesTable = () => {
       rowsPerPageOptions: [25, 50, 75, 100],
     },
     renderTopToolbarCustomActions: () => (
-      <Typography variant="h6">ESM Sites</Typography>
+      <Typography variant="h6">Sites</Typography>
     ),
     renderToolbarInternalActions: ({ table }) => (
       <>
