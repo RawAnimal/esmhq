@@ -115,9 +115,9 @@ const SitesTable = () => {
         accessorFn: (originalRow) => (originalRow.status ? 'true' : 'false'), //must be strings
         id: 'status',
         filterVariant: 'checkbox',
-        muiFilterCheckboxProps: {
-          defaultChecked: true,
-        },
+        // muiFilterCheckboxProps: {
+        //   defaultChecked: true,
+        // },
         Cell: ({ cell, row }) => (
           <SiteStatusBadge status={row.original.status} />
         ),
