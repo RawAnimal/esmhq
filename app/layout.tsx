@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import QueryClientProvider from './utilities/QueryClientProvider';
 import LocaleProvider from './utilities/LocalizationProvider';
 import ThemeProvider from './utilities/ThemeProvider';
+import CssBaseline from '@mui/material/CssBaseline';
 
 import { Inter } from 'next/font/google';
-import './globals.css';
+//import './globals.css';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -24,15 +25,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.variable}>
-        <ThemeProvider>
-          <QueryClientProvider>
-            <LocaleProvider>
-              <main>{children}</main>
-            </LocaleProvider>
-          </QueryClientProvider>
-        </ThemeProvider>
-      </body>
+      <ThemeProvider>
+        <QueryClientProvider>
+          <LocaleProvider>
+            <CssBaseline>
+              <body className={inter.variable}>
+                <main>{children}</main>
+              </body>
+            </CssBaseline>
+          </LocaleProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
     </html>
   );
 }
