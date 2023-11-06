@@ -1,7 +1,7 @@
 import NavBar from '@/app/_components/NavBar';
 import prisma from '@/prisma/client';
 import { notFound } from 'next/navigation';
-import { Container, Box, Typography, Button } from '@mui/material';
+import { Container, Box, Typography, Button, Card } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import prettify from '@/app/utilities/Prettify';
 import getTel from '@/app/utilities/GetTel';
@@ -70,6 +70,7 @@ const SiteDetailsPage = async ({ params }: Props) => {
             </Typography>
           </Box>
         </Grid>
+
         <Grid container>
           <Grid
             xs={12}
@@ -79,451 +80,449 @@ const SiteDetailsPage = async ({ params }: Props) => {
             xl={10}
             order={{ xs: 2, sm: 2, md: 1 }}
           >
-            {/* File Number - Assignment Details */}
-            <Grid
-              container
-              sx={{
-                flexDirection: { xs: 'column', sm: 'row' },
-              }}
-            >
-              <Box flex={1} margin={1}>
-                <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100 }}
-                >
-                  File #:
-                </Typography>
-                <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  color={`${site.fileNumber ? '' : 'red'}`}
-                  fontWeight={`${site.fileNumber ? '' : 'bold'}`}
-                >
-                  {site.fileNumber ? site.fileNumber : 'Incomplete'}
-                </Typography>
-              </Box>
-              <Box flex={1} margin={1}>
-                <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100 }}
-                >
-                  Assignment:
-                </Typography>
-                <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100, whiteSpace: 'nowrap' }}
-                >
-                  {`${prettify(site.assignment!)} / ${prettify(
-                    site.assignmentType
-                  )}`}
-                </Typography>
-              </Box>
-            </Grid>
-            {/* Start Date - End Date */}
-            <Grid
-              container
-              sx={{
-                flexDirection: { xs: 'column', sm: 'row' },
-              }}
-            >
-              <Box flex={1} margin={1}>
-                <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100 }}
-                >
-                  Start Date:
-                </Typography>
-                <Typography display={'inline-block'} variant="body1">
-                  {`${site.startDate.toLocaleDateString()} ${site.startDate.toLocaleTimeString(
-                    'en-US',
-                    { hour: '2-digit', minute: '2-digit', hour12: false }
-                  )}`}
-                </Typography>
-              </Box>
-              <Box flex={1} margin={1}>
-                {!site.endDate ? (
-                  <>
-                    <Typography
-                      display={'inline-block'}
-                      variant="body1"
-                      sx={{ width: 100 }}
-                    >
-                      Site Status:
-                    </Typography>
-                    <Typography display={'inline-block'} variant="body1">
-                      Active
-                    </Typography>
-                  </>
-                ) : (
-                  <>
-                    <Typography
-                      display={'inline-block'}
-                      variant="body1"
-                      sx={{ width: 100 }}
-                    >
-                      End Date:
-                    </Typography>
-                    <Typography display={'inline-block'} variant="body1">
-                      {site.endDate
-                        ? `${site.endDate.toLocaleDateString()} ${site.endDate.toLocaleTimeString(
-                            'en-US',
-                            {
-                              hour: '2-digit',
-                              minute: '2-digit',
-                              hour12: false,
-                            }
-                          )}`
-                        : 'Currently Active'}
-                    </Typography>
-                  </>
-                )}
-              </Box>
-            </Grid>
-            {/* Assignee and Vehicle */}
-            <Grid
-              container
-              sx={{
-                flexDirection: { xs: 'column', sm: 'row' },
-              }}
-            >
-              <Box flex={1} margin={1}>
-                <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100 }}
-                >
-                  Assignee:
-                </Typography>
-                <Typography display={'inline-block'} variant="body1">
-                  {site.assignedToUser?.firstName}{' '}
-                  {site.assignedToUser?.lastName}
-                </Typography>
-              </Box>
-              <Box flex={1} margin={1}>
-                <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100 }}
-                >
-                  Vehicle:
-                </Typography>
-                <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100, whiteSpace: 'nowrap' }}
-                >
-                  {site.withVehicle ? 'Yes' : 'No'}
-                </Typography>
-              </Box>
-            </Grid>
-            {/* Address */}
-            <Grid
-              container
-              sm={12}
-              sx={{
-                flexDirection: { xs: 'column', sm: 'row' },
-              }}
-            >
-              <Box flex={1} margin={1}>
-                <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100 }}
-                >
-                  Address:
-                </Typography>
-                <Typography display={'inline-block'} variant="body1">
-                  {`${site.streetNumberName}, ${site.cityTown}, ${site.province} ${site.postal}`}
-                </Typography>
-              </Box>
-            </Grid>
-            {/* Details */}
-            <Grid
-              container
-              sm={12}
-              sx={{
-                flexDirection: { xs: 'column', sm: 'row' },
-              }}
-            >
-              <Box flex={1} margin={1}>
-                <Typography display={'inline-block'} variant="body1">
-                  <span className="inline-block w-[100px]">Details:</span>
-                  {site.details} Lorem ipsum dolor, sit amet consectetur
-                  adipisicing elit. Officiis, ipsa? Placeat culpa amet
-                  temporibus nisi deleniti nesciunt officia illum alias sit
-                  tempore? Consequatur distinctio eius fugiat, autem voluptate
-                  corporis enim?
-                </Typography>
-              </Box>
-            </Grid>
-            {/* Client Details Header */}
-            <Box
-              display={'flex'}
-              sx={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                bgcolor: '#F4F4F4',
-                border: '1px solid #E6E6E6',
-                borderRadius: 1,
-                minHeight: 56,
-                marginTop: 1,
-                marginBottom: 2,
-                padding: 1,
-              }}
-            >
-              <Typography
-                variant="subtitle1"
-                textTransform="uppercase"
-                lineHeight={1}
-                textAlign={'center'}
+            <Card>
+              {/* File Number - Assignment Details */}
+              <Grid
+                container
+                sx={{
+                  flexDirection: { xs: 'column', sm: 'row' },
+                }}
               >
-                Client Details
-              </Typography>
-            </Box>
-            {/* Client Details */}
-            <Grid
-              container
-              sx={{
-                flexDirection: { xs: 'column', sm: 'row' },
-              }}
-            >
-              <Box flex={1} margin={1}>
-                <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100 }}
-                >
-                  Name:
-                </Typography>
-                <Typography display={'inline-block'} variant="body1">
-                  {site.clName}
-                </Typography>
-              </Box>
-              <Box flex={1} margin={1}>
-                <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100 }}
-                >
-                  Phone:
-                </Typography>
-                <Typography display={'inline-block'} variant="body1">
-                  <a href={getTel(site.clPhone)}>{site.clPhone}</a>
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid
-              container
-              sx={{
-                flexDirection: { xs: 'column', sm: 'row' },
-              }}
-            >
-              <Box flex={1} margin={1}>
-                <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100 }}
-                >
-                  Email:
-                </Typography>
-                <Typography display={'inline-block'} variant="body1">
-                  <Link href={`mailto:${site.clEmail}`}>{site.clEmail}</Link>
-                </Typography>
-              </Box>
-              <Box flex={1} margin={1}>
-                <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100 }}
-                >
-                  SSFNs:
-                </Typography>
-                <Typography display={'inline-block'} variant="body1">
-                  {site.clSSFNs ? site.clSSFNs : ''}
-                </Typography>
-              </Box>
-            </Grid>
-            {/* Client Company */}
-            <Grid
-              container
-              sm={12}
-              sx={{
-                flexDirection: { xs: 'column', sm: 'row' },
-              }}
-            >
-              <Box flex={1} margin={1}>
-                <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100 }}
-                >
-                  Company:
-                </Typography>
-                <Typography display={'inline-block'} variant="body1">
-                  {site.clCompany}
-                </Typography>
-              </Box>
-            </Grid>
-            {/* Client Company Address */}
-            <Grid
-              container
-              sm={12}
-              sx={{
-                flexDirection: { xs: 'column', sm: 'row' },
-              }}
-            >
-              <Box flex={1} margin={1}>
-                <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100 }}
-                >
-                  Address:
-                </Typography>
-                <Typography display={'inline-block'} variant="body1">
-                  {site.clAddress}
-                </Typography>
-              </Box>
-            </Grid>
-            {/* Principle Header */}
-            <Box
-              display={'flex'}
-              sx={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                bgcolor: '#F4F4F4',
-                border: '1px solid #E6E6E6',
-                borderRadius: 1,
-                minHeight: 56,
-                marginTop: 1,
-                marginBottom: 2,
-                padding: 1,
-              }}
-            >
-              <Typography
-                variant="subtitle1"
-                textTransform="uppercase"
-                lineHeight={1}
-                textAlign={'center'}
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    File #:
+                  </Typography>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    color={`${site.fileNumber ? '' : 'red'}`}
+                    fontWeight={`${site.fileNumber ? '' : 'bold'}`}
+                  >
+                    {site.fileNumber ? site.fileNumber : 'Incomplete'}
+                  </Typography>
+                </Box>
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    Assignment:
+                  </Typography>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100, whiteSpace: 'nowrap' }}
+                  >
+                    {`${prettify(site.assignment!)} / ${prettify(
+                      site.assignmentType
+                    )}`}
+                  </Typography>
+                </Box>
+              </Grid>
+              {/* Start Date - End Date */}
+              <Grid
+                container
+                sx={{
+                  flexDirection: { xs: 'column', sm: 'row' },
+                }}
               >
-                Principle Details
-              </Typography>
-            </Box>
-            {/* Principle Details */}
-            <Grid
-              container
-              sx={{
-                flexDirection: { xs: 'column', sm: 'row' },
-              }}
-            >
-              <Box flex={1} margin={1}>
-                <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100 }}
-                >
-                  Name:
-                </Typography>
-                <Typography display={'inline-block'} variant="body1">
-                  {site.prName ? site.prName : ''}
-                </Typography>
-              </Box>
-              <Box flex={1} margin={1}>
-                <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100 }}
-                >
-                  Phone:
-                </Typography>
-                <Typography display={'inline-block'} variant="body1">
-                  {site.prPhone ? (
-                    <a href={getTel(site.prPhone)}>{site.prPhone}</a>
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    Start Date:
+                  </Typography>
+                  <Typography display={'inline-block'} variant="body1">
+                    {`${site.startDate.toLocaleDateString()} ${site.startDate.toLocaleTimeString(
+                      'en-US',
+                      { hour: '2-digit', minute: '2-digit', hour12: false }
+                    )}`}
+                  </Typography>
+                </Box>
+                <Box flex={1} margin={1}>
+                  {!site.endDate ? (
+                    <>
+                      <Typography
+                        display={'inline-block'}
+                        variant="body1"
+                        sx={{ width: 100 }}
+                      >
+                        Site Status:
+                      </Typography>
+                      <Typography display={'inline-block'} variant="body1">
+                        Active
+                      </Typography>
+                    </>
                   ) : (
-                    ''
+                    <>
+                      <Typography
+                        display={'inline-block'}
+                        variant="body1"
+                        sx={{ width: 100 }}
+                      >
+                        End Date:
+                      </Typography>
+                      <Typography display={'inline-block'} variant="body1">
+                        {site.endDate
+                          ? `${site.endDate.toLocaleDateString()} ${site.endDate.toLocaleTimeString(
+                              'en-US',
+                              {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                hour12: false,
+                              }
+                            )}`
+                          : 'Currently Active'}
+                      </Typography>
+                    </>
                   )}
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid
-              container
-              sx={{
-                flexDirection: { xs: 'column', sm: 'row' },
-              }}
-            >
-              <Box flex={1} margin={1}>
+                </Box>
+              </Grid>
+              {/* Assignee and Vehicle */}
+              <Grid
+                container
+                sx={{
+                  flexDirection: { xs: 'column', sm: 'row' },
+                }}
+              >
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    Assignee:
+                  </Typography>
+                  <Typography display={'inline-block'} variant="body1">
+                    {site.assignedToUser?.firstName}{' '}
+                    {site.assignedToUser?.lastName}
+                  </Typography>
+                </Box>
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    Vehicle:
+                  </Typography>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100, whiteSpace: 'nowrap' }}
+                  >
+                    {site.withVehicle ? 'Yes' : 'No'}
+                  </Typography>
+                </Box>
+              </Grid>
+              {/* Address */}
+              <Grid
+                container
+                sm={12}
+                sx={{
+                  flexDirection: { xs: 'column', sm: 'row' },
+                }}
+              >
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    Address:
+                  </Typography>
+                  <Typography display={'inline-block'} variant="body1">
+                    {`${site.streetNumberName}, ${site.cityTown}, ${site.province} ${site.postal}`}
+                  </Typography>
+                </Box>
+              </Grid>
+              {/* Details */}
+              <Grid
+                container
+                sm={12}
+                sx={{
+                  flexDirection: { xs: 'column', sm: 'row' },
+                }}
+              >
+                <Box flex={1} margin={1}>
+                  <Typography display={'inline-block'} variant="body1">
+                    {site.details}
+                  </Typography>
+                </Box>
+              </Grid>
+              {/* Client Details Header */}
+              <Box
+                display={'flex'}
+                sx={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  bgcolor: '#F4F4F4',
+                  border: '1px solid #E6E6E6',
+                  borderRadius: 1,
+                  minHeight: 56,
+                  marginTop: 1,
+                  marginBottom: 2,
+                  padding: 1,
+                }}
+              >
                 <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100 }}
+                  variant="subtitle1"
+                  textTransform="uppercase"
+                  lineHeight={1}
+                  textAlign={'center'}
                 >
-                  Email:
-                </Typography>
-                <Typography display={'inline-block'} variant="body1">
-                  <Link href={`mailto:${site.prEmail}`}>{site.prEmail}</Link>
+                  Client Details
                 </Typography>
               </Box>
-              <Box flex={1} margin={1}>
+              {/* Client Details */}
+              <Grid
+                container
+                sx={{
+                  flexDirection: { xs: 'column', sm: 'row' },
+                }}
+              >
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    Name:
+                  </Typography>
+                  <Typography display={'inline-block'} variant="body1">
+                    {site.clName}
+                  </Typography>
+                </Box>
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    Phone:
+                  </Typography>
+                  <Typography display={'inline-block'} variant="body1">
+                    <a href={getTel(site.clPhone)}>{site.clPhone}</a>
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid
+                container
+                sx={{
+                  flexDirection: { xs: 'column', sm: 'row' },
+                }}
+              >
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    Email:
+                  </Typography>
+                  <Typography display={'inline-block'} variant="body1">
+                    <Link href={`mailto:${site.clEmail}`}>{site.clEmail}</Link>
+                  </Typography>
+                </Box>
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    SSFNs:
+                  </Typography>
+                  <Typography display={'inline-block'} variant="body1">
+                    {site.clSSFNs ? site.clSSFNs : ''}
+                  </Typography>
+                </Box>
+              </Grid>
+              {/* Client Company */}
+              <Grid
+                container
+                sm={12}
+                sx={{
+                  flexDirection: { xs: 'column', sm: 'row' },
+                }}
+              >
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    Company:
+                  </Typography>
+                  <Typography display={'inline-block'} variant="body1">
+                    {site.clCompany}
+                  </Typography>
+                </Box>
+              </Grid>
+              {/* Client Company Address */}
+              <Grid
+                container
+                sm={12}
+                sx={{
+                  flexDirection: { xs: 'column', sm: 'row' },
+                }}
+              >
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    Address:
+                  </Typography>
+                  <Typography display={'inline-block'} variant="body1">
+                    {site.clAddress}
+                  </Typography>
+                </Box>
+              </Grid>
+              {/* Principle Header */}
+              <Box
+                display={'flex'}
+                sx={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  bgcolor: '#F4F4F4',
+                  border: '1px solid #E6E6E6',
+                  borderRadius: 1,
+                  minHeight: 56,
+                  marginTop: 1,
+                  marginBottom: 2,
+                  padding: 1,
+                }}
+              >
                 <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100 }}
+                  variant="subtitle1"
+                  textTransform="uppercase"
+                  lineHeight={1}
+                  textAlign={'center'}
                 >
-                  SSFNs:
-                </Typography>
-                <Typography display={'inline-block'} variant="body1">
-                  {site.prSSFNs ? site.prSSFNs : ''}
+                  Principle Details
                 </Typography>
               </Box>
-            </Grid>
-            {/* Principle Company */}
-            <Grid
-              container
-              sm={12}
-              sx={{
-                flexDirection: { xs: 'column', sm: 'row' },
-              }}
-            >
-              <Box flex={1} margin={1}>
-                <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100 }}
-                >
-                  Company:
-                </Typography>
-                <Typography display={'inline-block'} variant="body1">
-                  {site.prCompany ? site.prCompany : ''}
-                </Typography>
-              </Box>
-            </Grid>
-            {/* Principle Company Address */}
-            <Grid
-              container
-              sm={12}
-              sx={{
-                flexDirection: { xs: 'column', sm: 'row' },
-              }}
-              marginBottom={4}
-            >
-              <Box flex={1} margin={1}>
-                <Typography
-                  display={'inline-block'}
-                  variant="body1"
-                  sx={{ width: 100 }}
-                >
-                  Address:
-                </Typography>
-                <Typography display={'inline-block'} variant="body1">
-                  {site.prAddress ? site.prAddress : ''}
-                </Typography>
-              </Box>
-            </Grid>
+              {/* Principle Details */}
+              <Grid
+                container
+                sx={{
+                  flexDirection: { xs: 'column', sm: 'row' },
+                }}
+              >
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    Name:
+                  </Typography>
+                  <Typography display={'inline-block'} variant="body1">
+                    {site.prName ? site.prName : ''}
+                  </Typography>
+                </Box>
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    Phone:
+                  </Typography>
+                  <Typography display={'inline-block'} variant="body1">
+                    {site.prPhone ? (
+                      <a href={getTel(site.prPhone)}>{site.prPhone}</a>
+                    ) : (
+                      ''
+                    )}
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid
+                container
+                sx={{
+                  flexDirection: { xs: 'column', sm: 'row' },
+                }}
+              >
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    Email:
+                  </Typography>
+                  <Typography display={'inline-block'} variant="body1">
+                    <Link href={`mailto:${site.prEmail}`}>{site.prEmail}</Link>
+                  </Typography>
+                </Box>
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    SSFNs:
+                  </Typography>
+                  <Typography display={'inline-block'} variant="body1">
+                    {site.prSSFNs ? site.prSSFNs : ''}
+                  </Typography>
+                </Box>
+              </Grid>
+              {/* Principle Company */}
+              <Grid
+                container
+                sm={12}
+                sx={{
+                  flexDirection: { xs: 'column', sm: 'row' },
+                }}
+              >
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    Company:
+                  </Typography>
+                  <Typography display={'inline-block'} variant="body1">
+                    {site.prCompany ? site.prCompany : ''}
+                  </Typography>
+                </Box>
+              </Grid>
+              {/* Principle Company Address */}
+              <Grid
+                container
+                sm={12}
+                sx={{
+                  flexDirection: { xs: 'column', sm: 'row' },
+                }}
+                marginBottom={1}
+              >
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    Address:
+                  </Typography>
+                  <Typography display={'inline-block'} variant="body1">
+                    {site.prAddress ? site.prAddress : ''}
+                  </Typography>
+                </Box>
+              </Grid>
+            </Card>
           </Grid>
+
           <Grid
             xs={12}
             sm={12}
