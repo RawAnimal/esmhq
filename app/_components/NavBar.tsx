@@ -42,7 +42,13 @@ function NavBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
-            <IconESMSheild fSize="large" />
+            <IconESMSheild
+              fSize="large"
+              shieldFill="#db792d"
+              crossFill="#646569"
+              strokeColor="#FFFFFF"
+              strokeOpacity="0.2"
+            />
           </Box>
           <Box
             sx={{
@@ -94,7 +100,13 @@ function NavBar() {
               flexGrow: 1,
             }}
           >
-            <IconESMSheild fSize="large" />
+            <IconESMSheild
+              fSize="large"
+              shieldFill="#db792d"
+              crossFill="#646569"
+              strokeColor="#FFFFFF"
+              strokeOpacity="0.2"
+            />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
