@@ -29,7 +29,8 @@ import { useState } from 'react';
 import { siteSchema } from '@/app/utilities/validationSchemas';
 
 type SiteForm = z.infer<typeof siteSchema>;
-interface NewSiteForm extends SiteForm {
+type SiteFormMinus = Omit<SiteForm, 'startDate'>;
+interface NewSiteForm extends SiteFormMinus {
   startDate: Dayjs;
 }
 

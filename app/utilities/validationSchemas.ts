@@ -32,7 +32,7 @@ export const userSchema = z.object({
 // });
 
 export const siteSchema = z.object({
-  //startDate: z.coerce.date(),
+  startDate: z.coerce.date(),
   streetNumberName: z
     .string()
     .min(3, '>= 3 characters')
@@ -89,13 +89,14 @@ export const siteSchema = z.object({
       z.literal(undefined, { errorMap: () => ({ message: 'Error endDate' }) })
     )
     .optional(),
-  fileNumber: z.string().max(10, '<=10 characters').optional(),
+  fileNumber: z.string().max(10, '<=10 characters').optional().nullish(),
   schedulerURL: z
     .string()
     .url()
     .max(255, '<=255 characters')
     .or(z.literal('', { errorMap: () => ({ message: 'Error schedulerURL' }) }))
-    .optional(),
+    .optional()
+    .nullish(),
   clName: z.string().min(2, '>=2 characters').max(100, '<=100 characters'),
   clCompany: z.string().min(2, '>=2 characters').max(100, '<=100 characters'),
   clPhone: z
@@ -104,31 +105,33 @@ export const siteSchema = z.object({
     .min(10, '>= 10 characters')
     .max(12, '<= 12 characters'),
   clEmail: z.string().email().max(255, '<= 255 characters'),
-  clAddress: z.string().max(255, '<= 255 characters').optional(),
-  clSSFNs: z.string().max(100, '<= 100 characters').optional(),
-  prName: z.string().max(100, '<= 100 characters').optional(),
-  prCompany: z.string().max(100, '<= 100 characters').optional(),
+  clAddress: z.string().max(255, '<= 255 characters').optional().nullish(),
+  clSSFNs: z.string().max(100, '<= 100 characters').optional().nullish(),
+  prName: z.string().max(100, '<= 100 characters').optional().nullish(),
+  prCompany: z.string().max(100, '<= 100 characters').optional().nullish(),
   prPhone: z
     .string()
     .regex(phoneRegEx, 'Format: 000 000-0000')
     .min(10, '>= 10 characters')
     .max(12, '<= 12 characters')
     .or(z.literal('', { errorMap: () => ({ message: 'Error prPhone' }) }))
-    .optional(),
+    .optional()
+    .nullish(),
   prEmail: z
     .string()
     .email()
     .max(255, '<= 255 characters')
     .or(z.literal('', { errorMap: () => ({ message: 'Error prEmail' }) }))
-    .optional(),
-  prAddress: z.string().max(255, '<= 255 characters').optional(),
-  prSSFNs: z.string().max(100, '<= 100 characters').optional(),
+    .optional()
+    .nullish(),
+  prAddress: z.string().max(255, '<= 255 characters').optional().nullish(),
+  prSSFNs: z.string().max(100, '<= 100 characters').optional().nullish(),
   assignedToUserId: z
     .string()
     .min(1, '> 1 character')
     .max(255, '<= 255 characters')
     .optional(),
-  status: z.enum(['ACTIVE', 'INACTIVE']).default('ACTIVE'),
+  status: z.boolean().default(true),
 });
 
 export const patchSiteSchema = z.object({
@@ -203,13 +206,14 @@ export const patchSiteSchema = z.object({
       z.literal(undefined, { errorMap: () => ({ message: 'Error endDate' }) })
     )
     .optional(),
-  fileNumber: z.string().max(10, '<=10 characters').optional(),
+  fileNumber: z.string().max(10, '<=10 characters').optional().nullish(),
   schedulerURL: z
     .string()
     .url()
     .max(255, '<=255 characters')
     .or(z.literal('', { errorMap: () => ({ message: 'Error schedulerURL' }) }))
-    .optional(),
+    .optional()
+    .nullish(),
   clName: z
     .string()
     .min(2, '>=2 characters')
@@ -227,30 +231,32 @@ export const patchSiteSchema = z.object({
     .max(12, '<= 12 characters')
     .optional(),
   clEmail: z.string().email().max(255, '<= 255 characters').optional(),
-  clAddress: z.string().max(255, '<= 255 characters').optional(),
-  clSSFNs: z.string().max(100, '<= 100 characters').optional(),
-  prName: z.string().max(100, '<= 100 characters').optional(),
-  prCompany: z.string().max(100, '<= 100 characters').optional(),
+  clAddress: z.string().max(255, '<= 255 characters').optional().nullish(),
+  clSSFNs: z.string().max(100, '<= 100 characters').optional().nullish(),
+  prName: z.string().max(100, '<= 100 characters').optional().nullish(),
+  prCompany: z.string().max(100, '<= 100 characters').optional().nullish(),
   prPhone: z
     .string()
     .regex(phoneRegEx, 'Format: 000 000-0000')
     .min(10, '>= 10 characters')
     .max(12, '<= 12 characters')
     .or(z.literal('', { errorMap: () => ({ message: 'Error prPhone' }) }))
-    .optional(),
+    .optional()
+    .nullish(),
   prEmail: z
     .string()
     .email()
     .max(255, '<= 255 characters')
     .or(z.literal('', { errorMap: () => ({ message: 'Error prEmail' }) }))
-    .optional(),
-  prAddress: z.string().max(255, '<= 255 characters').optional(),
-  prSSFNs: z.string().max(100, '<= 100 characters').optional(),
+    .optional()
+    .nullish(),
+  prAddress: z.string().max(255, '<= 255 characters').optional().nullish(),
+  prSSFNs: z.string().max(100, '<= 100 characters').optional().nullish(),
   assignedToUserId: z
     .string()
     .min(1, '> 1 character')
     .max(255, '<= 255 characters')
     .nullable()
     .optional(),
-  status: z.enum(['ACTIVE', 'INACTIVE']).default('ACTIVE').optional(),
+  status: z.boolean().optional(),
 });
