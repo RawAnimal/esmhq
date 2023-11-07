@@ -8,6 +8,7 @@ import getTel from '@/app/utilities/GetTel';
 import Link from 'next/link';
 import EditIcon from '@mui/icons-material/Edit';
 import BackButton from '@/app/_components/BackButton';
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 
 interface Props {
   params: {
@@ -533,7 +534,10 @@ const SiteDetailsPage = async ({ params }: Props) => {
               marginLeft={2}
               marginRight={2}
             >
-              <BackButton />
+              <BackButton
+                label="Back"
+                icon={<KeyboardDoubleArrowLeftIcon />}
+              />
             </Box>
             <Box
               sx={{ flex: { xs: '1', md: '0' } }}
