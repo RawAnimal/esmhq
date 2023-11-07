@@ -90,6 +90,7 @@ const SiteForm = ({ site }: { site?: Site }) => {
             setSubmitting(true);
             await axios.patch('/api/sites/' + site?.id, data);
             router.push('/sites/' + site?.id);
+            router.refresh();
           } catch (error) {
             setSubmitting(false);
             setError('An enxpected error occurred.');

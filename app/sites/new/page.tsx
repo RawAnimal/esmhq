@@ -71,6 +71,7 @@ const NewSitePage = () => {
               await axios.post('/api/sites', data);
               setSubmitting(true);
               router.push('/sites');
+              router.refresh();
             } catch (error) {
               setSubmitting(false);
               setError('An enxpected error occurred.');
