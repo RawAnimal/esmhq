@@ -9,6 +9,7 @@ import Link from 'next/link';
 import EditIcon from '@mui/icons-material/Edit';
 import BackButton from '@/app/_components/BackButton';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import DeleteSiteButton from '../_components/DeleteSiteButton';
 
 interface Props {
   params: {
@@ -556,6 +557,15 @@ const SiteDetailsPage = async ({ params }: Props) => {
                   Edit
                 </Button>
               </Link>
+            </Box>
+            <Box
+              sx={{ flex: { xs: '1', md: '0' } }}
+              p={0}
+              mb={2}
+              marginLeft={2}
+              marginRight={2}
+            >
+              <DeleteSiteButton siteId={site.id} />
             </Box>
           </Grid>
         </Grid>
