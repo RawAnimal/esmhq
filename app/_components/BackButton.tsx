@@ -2,19 +2,23 @@
 
 import { Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 
-const BackButton = () => {
+interface Props {
+  label: string;
+  icon: React.ReactNode;
+}
+
+const BackButton = ({ label, icon }: Props) => {
   const router = useRouter();
   return (
     <Button
       fullWidth
       variant="contained"
-      color="primary"
+      color="secondary"
       onClick={() => router.back()}
-      startIcon={<KeyboardDoubleArrowLeftIcon />}
+      startIcon={icon}
     >
-      Back
+      {label}
     </Button>
   );
 };
