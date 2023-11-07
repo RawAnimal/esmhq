@@ -6,15 +6,19 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  CircularProgress,
 } from '@mui/material';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const DeleteSiteButton = ({ siteId }: { siteId: number }) => {
   const router = useRouter();
   const [openDialog, setOpenDialog] = useState(false);
   const [openError, setOpenError] = useState(false);
+  const [isDeleting, setDeleting] = useState(false);
 
   const handleClickOpenDialog = () => {
     setOpenDialog(true);
@@ -31,11 +35,13 @@ const DeleteSiteButton = ({ siteId }: { siteId: number }) => {
     <>
       <Button
         fullWidth
+        disabled={openDialog}
         variant="contained"
         color="warning"
         onClick={handleClickOpenDialog}
+        startIcon={<DeleteIcon />}
       >
-        Delete
+        Delete {openDialog && <CircularProgress size={20} sx={{ ml: 1 }} />}
       </Button>
       <Dialog
         open={openDialog}
@@ -55,17 +61,22 @@ const DeleteSiteButton = ({ siteId }: { siteId: number }) => {
             onClick={handleClickCloseDialog}
             variant="contained"
             color="secondary"
+            startIcon={<CancelIcon />}
           >
             Cancel
           </Button>
           <Button
+            disabled={isDeleting}
+            startIcon={<DeleteIcon />}
             onClick={async () => {
               try {
+                setDeleting(true);
                 setOpenDialog(false);
                 await axios.delete('/api/sites/' + siteId);
                 router.push('/sites');
                 router.refresh();
               } catch (error) {
+                setDeleting(false);
                 setOpenDialog(false);
                 setOpenError(true);
               }
@@ -74,7 +85,8 @@ const DeleteSiteButton = ({ siteId }: { siteId: number }) => {
             variant="contained"
             color="warning"
           >
-            Delete
+            OK
+            {isDeleting && <CircularProgress size={20} sx={{ ml: 1 }} />}
           </Button>
         </DialogActions>
       </Dialog>
