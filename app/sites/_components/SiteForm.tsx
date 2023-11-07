@@ -26,6 +26,9 @@ import { assignmentTypes } from '@/app/utilities/AssignmentTypeList';
 import { siteSchema } from '@/app/utilities/validationSchemas';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import BackButton from '@/app/_components/BackButton';
+import CancelIcon from '@mui/icons-material/Cancel';
+import SaveIcon from '@mui/icons-material/Save';
 
 type SiteForm = z.infer<typeof siteSchema>;
 type SiteFormMinus = Omit<SiteForm, 'startDate'>;
@@ -84,9 +87,8 @@ const SiteForm = ({ site }: { site?: Site }) => {
       <form
         onSubmit={handleSubmit(async (data) => {
           try {
-            console.log(data);
-            await axios.patch('/api/sites/' + site?.id, data);
             setSubmitting(true);
+            await axios.patch('/api/sites/' + site?.id, data);
             router.push('/sites/' + site?.id);
           } catch (error) {
             setSubmitting(false);
@@ -390,18 +392,34 @@ const SiteForm = ({ site }: { site?: Site }) => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 border: '1px solid #E6E6E6',
+                bgcolor: '#F4F4F4',
                 borderRadius: 1,
                 height: 112,
               }}
             >
-              <Button
-                disabled={!formState.isValid || isSubmitting}
-                variant={'contained'}
-                type="submit"
-              >
-                Save{' '}
-                {isSubmitting && <CircularProgress size={20} sx={{ ml: 1 }} />}
-              </Button>
+              <Grid container flexGrow={1}>
+                <Grid xs={12} md={6}>
+                  <Box m={1} flexGrow={1}>
+                    <BackButton label="Cancel" icon={<CancelIcon />} />
+                  </Box>
+                </Grid>
+                <Grid xs={12} md={6}>
+                  <Box m={1} flexGrow={1}>
+                    <Button
+                      disabled={!formState.isValid || isSubmitting}
+                      variant={'contained'}
+                      type="submit"
+                      fullWidth
+                      startIcon={<SaveIcon />}
+                    >
+                      Save{' '}
+                      {isSubmitting && (
+                        <CircularProgress size={20} sx={{ ml: 1 }} />
+                      )}
+                    </Button>
+                  </Box>
+                </Grid>
+              </Grid>
             </Box>
           </Grid>
         </Grid>
