@@ -238,6 +238,48 @@ const SiteDetailsPage = async ({ params }: Props) => {
                   </Typography>
                 </Box>
               </Grid>
+              {/* Assignee and Vehicle */}
+              <Grid
+                container
+                sx={{
+                  flexDirection: { xs: 'column', sm: 'row' },
+                }}
+              >
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    Est. Hours:
+                  </Typography>
+                  <Typography display={'inline-block'} variant="body1">
+                    {site.estHours}
+                  </Typography>
+                </Box>
+                <Box flex={1} margin={1}>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    Scheduler:
+                  </Typography>
+                  <Typography
+                    display={'inline-block'}
+                    variant="body1"
+                    sx={{ width: 100, whiteSpace: 'nowrap' }}
+                  >
+                    {site.schedulerURL ? (
+                      <Link href={site.schedulerURL} target="_blank">
+                        TrackTik
+                      </Link>
+                    ) : (
+                      ''
+                    )}
+                  </Typography>
+                </Box>
+              </Grid>
               {/* Details */}
               <Grid
                 container
