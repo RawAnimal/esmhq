@@ -5,7 +5,7 @@ import { Box, Button, Grid, TextField } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import LogoESM from '@/public/LogoESM.svg';
 
 type Inputs = {
