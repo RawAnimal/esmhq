@@ -3,6 +3,7 @@ import QueryClientProvider from './utilities/QueryClientProvider';
 import LocaleProvider from './utilities/LocalizationProvider';
 import ThemeProvider from './utilities/ThemeProvider';
 import CssBaseline from '@mui/material/CssBaseline';
+import AuthProvider from './utilities/AuthProvider';
 
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -27,13 +28,15 @@ export default function RootLayout({
     <html lang="en">
       <ThemeProvider>
         <QueryClientProvider>
-          <LocaleProvider>
-            <CssBaseline>
-              <body className={inter.variable}>
-                <main>{children}</main>
-              </body>
-            </CssBaseline>
-          </LocaleProvider>
+          <AuthProvider>
+            <LocaleProvider>
+              <CssBaseline>
+                <body className={inter.variable}>
+                  <main>{children}</main>
+                </body>
+              </CssBaseline>
+            </LocaleProvider>
+          </AuthProvider>
         </QueryClientProvider>
       </ThemeProvider>
     </html>

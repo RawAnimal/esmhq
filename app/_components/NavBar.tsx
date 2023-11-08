@@ -14,11 +14,13 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import IconESMSheild from '@/app/icons/IconESMSheild';
 import Link from 'next/link';
+import { signOut, useSession, signIn } from 'next-auth/react';
 
 const pages = [{ title: 'Sites', href: '/sites' }];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+//const settings = ['Profile', 'Account', 'Dashboard', 'Sign Out'];
 
 function NavBar() {
+  const { status, data: session } = useSession();
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -151,11 +153,36 @@ function NavBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
+              {/* {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
-              ))}
+              ))} */}
+
+              {status === 'authenticated' && (
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Link
+                    href="#"
+                    onClick={() => {
+                      signOut();
+                    }}
+                  >
+                    <Typography textAlign="center">Sign Out</Typography>
+                  </Link>
+                </MenuItem>
+              )}
+              {status === 'unauthenticated' && (
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Link
+                    href="#"
+                    onClick={() => {
+                      signIn();
+                    }}
+                  >
+                    <Typography textAlign="center">Sign In</Typography>
+                  </Link>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
         </Toolbar>
