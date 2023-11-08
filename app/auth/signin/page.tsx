@@ -5,7 +5,7 @@ import { Box, Button, Grid, TextField } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import Image from "next/legacy/image";
+import Image from "next/image";
 import LogoESM from '@/public/LogoESM.svg';
 
 type Inputs = {
@@ -44,7 +44,15 @@ const SignIn = () => {
           flexDirection={'column'}
           sx={{ xs: { width: '100%' }, md: { width: '25%' } }}
         >
-          <Image src={LogoESM} alt="ESM Logo" layout="responsive" priority />
+          <Image
+            src={LogoESM}
+            alt="ESM Logo"
+            priority
+            sizes="100vw"
+            style={{
+              width: "100%",
+              height: "auto"
+            }} />
           <TextField
             id="email"
             label="Email"
