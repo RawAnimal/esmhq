@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import BackButton from '@/app/_components/BackButton';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import DeleteSiteButton from '../_components/DeleteSiteButton';
+import AssignManagerSelect from '../_components/AssignManagerSelect';
 
 interface Props {
   params: {
@@ -581,6 +582,15 @@ const SiteDetailsPage = async ({ params }: Props) => {
                 label="Back"
                 icon={<KeyboardDoubleArrowLeftIcon />}
               />
+            </Box>
+            <Box
+              sx={{ flex: { xs: '1', md: '0' } }}
+              p={0}
+              mb={2}
+              marginLeft={2}
+              marginRight={2}
+            >
+              <AssignManagerSelect site={site} />
             </Box>
             <Box
               sx={{ flex: { xs: '1', md: '0' } }}
