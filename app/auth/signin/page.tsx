@@ -1,11 +1,11 @@
 'use client';
 
 import { signIn as nextAuthSignIn } from 'next-auth/react';
-import { Box, Button, Grid, TextField } from '@mui/material';
+import { Box, Button, TextField, Alert } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import Image from "next/image";
+import Image from 'next/image';
 import LogoESM from '@/public/LogoESM.svg';
 
 type Inputs = {
@@ -32,7 +32,7 @@ const SignIn = () => {
     router.push('/');
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <Box
         display="flex"
         height="100vh"
@@ -50,32 +50,45 @@ const SignIn = () => {
             priority
             sizes="100vw"
             style={{
-              width: "100%",
-              height: "auto"
-            }} />
+              width: '100%',
+              height: 'auto',
+            }}
+          />
           <TextField
             id="email"
             label="Email"
             variant="outlined"
+            autoComplete="email"
+            required
+            defaultValue=""
             sx={{ mt: 2, ml: 1, mb: 1, mr: 1 }}
+            {...register('email')}
           />
           <TextField
             id="password"
             type="password"
             label="Password"
             variant="outlined"
+            autoComplete="off"
+            required
+            defaultValue=""
+            {...register('password')}
             sx={{ mt: 1, ml: 1, mb: 1, mr: 1 }}
           />
           <Button
             id="loginSubmit"
             type="submit"
-            variant="outlined"
+            variant="contained"
             color="primary"
             sx={{ mt: 1, ml: 1, mr: 1 }}
           >
             Sign In
           </Button>
-          {error && <div>there is an error</div>}
+          {error && (
+            <Alert severity="error" sx={{ mt: 1, ml: 1, mr: 1 }}>
+              Incorrect credentials.
+            </Alert>
+          )}
         </Box>
       </Box>
     </form>
