@@ -1,4 +1,5 @@
 import NavBar from '@/app/_components/NavBar';
+import { getServerSession } from 'next-auth';
 import prisma from '@/prisma/client';
 import { notFound } from 'next/navigation';
 import { Container, Box, Typography, Button, Card } from '@mui/material';
@@ -11,6 +12,9 @@ import BackButton from '@/app/_components/BackButton';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import DeleteSiteButton from '../_components/DeleteSiteButton';
 import AssignManagerSelect from '../_components/AssignManagerSelect';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import EndSiteButton from '../_components/EndSiteButton';
+import ReopenSiteButton from '../_components/ReopenSiteButton';
 
 interface Props {
   params: {
@@ -19,6 +23,7 @@ interface Props {
 }
 
 const SiteDetailsPage = async ({ params }: Props) => {
+  const session = await getServerSession(authOptions);
   if (!Number(params.id)) notFound();
   const site = await prisma.site.findUnique({
     where: { id: parseInt(params.id) },
@@ -28,6 +33,57 @@ const SiteDetailsPage = async ({ params }: Props) => {
   });
 
   if (!site) notFound();
+
+  const showEditButton = () => {
+    // Show Edit If
+    // Site is active and you are assigned to it
+    // OR
+    // You are Webadmin
+    if (
+      (site.status === true && site.assignedToUserId === session?.user.id) ||
+      (site.status === true && session?.user.role === 'WEBADMIN')
+    )
+      return (
+        <Box
+          sx={{ flex: { xs: '1', md: '0' } }}
+          p={0}
+          mb={2}
+          marginLeft={2}
+          marginRight={2}
+        >
+          <Link href={`/sites/${site.id}/edit`} passHref>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              startIcon={<EditIcon />}
+            >
+              Edit
+            </Button>
+          </Link>
+        </Box>
+      );
+  };
+
+  const showReopenSiteButton = () => {
+    // Show if site if current site is inactive for Webadmin and Webusers
+    if (
+      site.status !== true &&
+      (session?.user.role === 'WEBADMIN' || session?.user.role === 'WEBUSER')
+    )
+      return <ReopenSiteButton siteId={site.id} />;
+  };
+
+  const showEndSiteButton = () => {
+    // Show if active and you are assigned to it
+    // OR
+    // if active and you are Webadmin
+    if (
+      (site.status === true && site.assignedToUserId === session?.user.id) ||
+      (site.status === true && session?.user.role === 'WEBADMIN')
+    )
+      return <EndSiteButton siteId={site.id} />;
+  };
 
   return (
     <>
@@ -583,42 +639,32 @@ const SiteDetailsPage = async ({ params }: Props) => {
                 icon={<KeyboardDoubleArrowLeftIcon />}
               />
             </Box>
-            <Box
-              sx={{ flex: { xs: '1', md: '0' } }}
-              p={0}
-              mb={2}
-              marginLeft={2}
-              marginRight={2}
-            >
-              <AssignManagerSelect site={site} />
-            </Box>
-            <Box
-              sx={{ flex: { xs: '1', md: '0' } }}
-              p={0}
-              mb={2}
-              marginLeft={2}
-              marginRight={2}
-            >
-              <Link href={`/sites/${site.id}/edit`} passHref>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  startIcon={<EditIcon />}
-                >
-                  Edit
-                </Button>
-              </Link>
-            </Box>
-            <Box
-              sx={{ flex: { xs: '1', md: '0' } }}
-              p={0}
-              mb={2}
-              marginLeft={2}
-              marginRight={2}
-            >
-              <DeleteSiteButton siteId={site.id} />
-            </Box>
+
+            {session?.user.role === 'WEBADMIN' && (
+              <Box
+                sx={{ flex: { xs: '1', md: '0' } }}
+                p={0}
+                mb={2}
+                marginLeft={2}
+                marginRight={2}
+              >
+                <AssignManagerSelect site={site} />
+              </Box>
+            )}
+            {showEditButton()}
+            {showReopenSiteButton()}
+            {showEndSiteButton()}
+            {session?.user.role === 'WEBADMIN' && (
+              <Box
+                sx={{ flex: { xs: '1', md: '0' } }}
+                p={0}
+                mb={2}
+                marginLeft={2}
+                marginRight={2}
+              >
+                <DeleteSiteButton siteId={site.id} />
+              </Box>
+            )}
           </Grid>
         </Grid>
       </Container>

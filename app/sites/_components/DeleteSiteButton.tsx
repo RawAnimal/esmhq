@@ -99,10 +99,10 @@ const DeleteSiteButton = ({ siteId }: { siteId: number }) => {
         <DialogTitle id="alert-dialog-title">{'Error'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            This site could not be deleted.
+            This site could not be deleted. Please inform the administrator.
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ mb: 1, mr: 1 }}>
           <Button
             onClick={handleErrorClose}
             autoFocus
