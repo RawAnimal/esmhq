@@ -29,6 +29,7 @@ import { useState } from 'react';
 import BackButton from '@/app/_components/BackButton';
 import CancelIcon from '@mui/icons-material/Cancel';
 import SaveIcon from '@mui/icons-material/Save';
+import { useSession } from 'next-auth/react';
 
 type SiteForm = z.infer<typeof siteSchema>;
 type SiteFormMinus = Omit<SiteForm, 'startDate'>;
@@ -36,15 +37,20 @@ interface NewSiteForm extends SiteFormMinus {
   startDate: Dayjs;
 }
 
-const SiteForm = ({ site }: { site?: Site }) => {
+const SiteForm = ({ site, reopen }: { site?: Site; reopen?: boolean }) => {
+  const { status, data: session } = useSession();
   const router = useRouter();
   const [error, setError] = useState('');
   const [isSubmitting, setSubmitting] = useState(false);
+  const defaultDate = () => {
+    if (reopen) return dayjs(new Date());
+    return dayjs(site?.startDate);
+  };
   const { control, handleSubmit, formState } = useForm<NewSiteForm>({
     mode: 'onChange',
     resolver: zodResolver(siteSchema),
     defaultValues: {
-      startDate: dayjs(site?.startDate),
+      startDate: defaultDate(),
       streetNumberName: site?.streetNumberName,
       cityTown: site?.cityTown,
       province: site?.province,
@@ -68,6 +74,7 @@ const SiteForm = ({ site }: { site?: Site }) => {
       prPhone: site?.prPhone,
       prEmail: site?.prEmail,
       prSSFNs: site?.prSSFNs,
+      assignedToUserId: session?.user.id,
     },
   });
   return (
@@ -88,8 +95,16 @@ const SiteForm = ({ site }: { site?: Site }) => {
         onSubmit={handleSubmit(async (data) => {
           try {
             setSubmitting(true);
-            await axios.patch('/api/sites/' + site?.id, data);
-            router.push('/sites/' + site?.id);
+            if (reopen) {
+              await axios.post('/api/sites', data);
+            } else {
+              await axios.patch('/api/sites/' + site?.id, data);
+            }
+            if (reopen) {
+              router.push('/sites/');
+            } else {
+              router.push('/sites/' + site?.id);
+            }
             router.refresh();
           } catch (error) {
             setSubmitting(false);
@@ -112,7 +127,8 @@ const SiteForm = ({ site }: { site?: Site }) => {
               }}
             >
               <Typography variant="h6" textTransform="uppercase">
-                Edit Site
+                {reopen ? 'Reopen Site' : 'Edit Site'}{' '}
+                {reopen && site?.fileNumber ? `- ${site.fileNumber}` : null}
               </Typography>
             </Box>
           </Grid>
@@ -123,7 +139,7 @@ const SiteForm = ({ site }: { site?: Site }) => {
               control={control}
               ampm={false}
               format="YYYY-MM-DD HH:mm"
-              disabled={true}
+              disabled={reopen ? false : true}
             />
           </Grid>
           <Grid xs={12}>
