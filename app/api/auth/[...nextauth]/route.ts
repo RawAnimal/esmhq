@@ -30,8 +30,17 @@ export const authOptions: NextAuthOptions = {
           credentials.password,
           user.hashedPassword!
         );
-
-        return passwordsMatch ? user : null;
+        return passwordsMatch
+          ? {
+              id: user.id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              role: user.role,
+              title: user.title,
+              phone: user.phone,
+            }
+          : null;
       },
     }),
   ],
@@ -39,39 +48,35 @@ export const authOptions: NextAuthOptions = {
     strategy: 'jwt',
   },
   callbacks: {
-    async jwt({ token, user, session }) {
-      // Update Token with additionakl fields
+    async jwt({ token, user }) {
+      // Update Token with additional fields
       if (user) {
         return {
           ...token,
           id: user.id,
-          // @ts-ignore
           firstName: user.firstName,
-          // @ts-ignore
           lastName: user.lastName,
-          // @ts-ignore
-          title: user.title,
-          // @ts-ignore
-          phone: user.phone,
-          // @ts-ignore
           role: user.role,
+          title: user.title,
+          phone: user.phone,
         };
       }
       return token;
     },
-    // @ts-ignore
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       // pass in user id and names to session
       return {
         ...session,
         user: {
           ...session.user,
           id: token.id,
+          name: `${token.firstName} ${token.lastName}`,
           firstName: token.firstName,
           lastName: token.lastName,
+          role: token.role,
           title: token.title,
           phone: token.phone,
-          role: token.role,
+          email: token.email,
         },
       };
     },
