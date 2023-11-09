@@ -85,6 +85,22 @@ const SiteDetailsPage = async ({ params }: Props) => {
       return <EndSiteButton siteId={site.id} />;
   };
 
+  const showAssignButton = () => {
+    // Show if active and you are Webadmin
+    if (site.status === true && session?.user.role === 'WEBADMIN')
+      return (
+        <Box
+          sx={{ flex: { xs: '1', md: '0' } }}
+          p={0}
+          mb={2}
+          marginLeft={2}
+          marginRight={2}
+        >
+          <AssignManagerSelect site={site} />
+        </Box>
+      );
+  };
+
   return (
     <>
       <NavBar />
@@ -640,17 +656,7 @@ const SiteDetailsPage = async ({ params }: Props) => {
               />
             </Box>
 
-            {session?.user.role === 'WEBADMIN' && (
-              <Box
-                sx={{ flex: { xs: '1', md: '0' } }}
-                p={0}
-                mb={2}
-                marginLeft={2}
-                marginRight={2}
-              >
-                <AssignManagerSelect site={site} />
-              </Box>
-            )}
+            {showAssignButton()}
             {showEditButton()}
             {showReopenSiteButton()}
             {showEndSiteButton()}
