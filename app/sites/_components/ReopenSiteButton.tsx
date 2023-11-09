@@ -12,9 +12,11 @@ import {
 } from '@mui/material';
 import EventRepeatIcon from '@mui/icons-material/EventRepeat';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const ReopenSiteButton = ({ siteId }: { siteId: number }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const router = useRouter();
   const handleClickOpen = () => {
     setDialogOpen(true);
   };
@@ -22,8 +24,9 @@ const ReopenSiteButton = ({ siteId }: { siteId: number }) => {
     setDialogOpen(false);
   };
   const handleReopen = () => {
-    console.log('reopening site...');
     setDialogOpen(false);
+    router.push(`/sites/${siteId}/reopen`);
+    router.refresh();
   };
   return (
     <>
