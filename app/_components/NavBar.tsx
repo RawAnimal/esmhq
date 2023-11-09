@@ -1,25 +1,30 @@
 'use client';
 import { useState, MouseEvent } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  Avatar,
+  Button,
+  MenuItem,
+} from '@mui/material/';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
 import IconESMSheild from '@/app/icons/IconESMSheild';
 import Link from 'next/link';
 import { signOut, useSession, signIn } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
 
-const pages = [{ title: 'Sites', href: '/sites' }];
-//const settings = ['Profile', 'Account', 'Dashboard', 'Sign Out'];
+const pages = [
+  { title: 'Dash', href: '/' },
+  { title: 'Sites', href: '/sites' },
+];
 
 function NavBar() {
+  const pathname = usePathname();
   const { status, data: session } = useSession();
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -37,6 +42,22 @@ function NavBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const getActiveClass = (url: string) => {
+    console.log('pathname:', pathname);
+    console.log('url:', url);
+    console.log(pathname === url);
+    if (pathname === url) return 'activeLink';
+    return '';
+  };
+
+  const getMobileActiveClass = (url: string) => {
+    console.log('pathname:', pathname);
+    console.log('url:', url);
+    console.log(pathname === url);
+    if (pathname === url) return 'activeMobileLink';
+    return 'mobileLink';
   };
 
   return (
@@ -90,10 +111,16 @@ function NavBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
+              {/* mobile menu */}
               {pages.map((page) => (
-                <MenuItem key={page.title} onClick={handleCloseNavMenu}>
-                  <Link href={page.href}>
-                    <Typography textAlign="center">{page.title}</Typography>
+                <MenuItem
+                  key={page.title}
+                  onClick={handleCloseNavMenu}
+                  className={getMobileActiveClass(page.href)}
+                  sx={{ minWidth: 150 }}
+                >
+                  <Link className="mobileLinkFont" href={page.href}>
+                    {page.title}
                   </Link>
                 </MenuItem>
               ))}
@@ -121,10 +148,12 @@ function NavBar() {
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
+              // standard menu
               <Button
                 key={page.title}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
+                className={getActiveClass(page.href)}
               >
                 <Link href={page.href}>{page.title}</Link>
               </Button>
@@ -151,21 +180,46 @@ function NavBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {/* {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              {status === 'authenticated' && (
+                <MenuItem
+                  onClick={handleCloseUserMenu}
+                  sx={{ fontWeight: 800, minWidth: 150 }}
+                >
+                  {session.user.firstName} {session.user.lastName}
                 </MenuItem>
-              ))} */}
+              )}
 
               {status === 'authenticated' && (
-                <MenuItem onClick={handleCloseUserMenu}>
+                <MenuItem
+                  onClick={handleCloseUserMenu}
+                  className={getMobileActiveClass('/users/profile')}
+                >
+                  <Link href="/users/profile">
+                    <Typography
+                      color="black"
+                      fontWeight={700}
+                      textAlign="center"
+                    >
+                      Profile
+                    </Typography>
+                  </Link>
+                </MenuItem>
+              )}
+              {status === 'authenticated' && (
+                <MenuItem onClick={handleCloseUserMenu} className="mobileLink">
                   <Link
                     href="#"
                     onClick={() => {
                       signOut();
                     }}
                   >
-                    <Typography textAlign="center">Sign Out</Typography>
+                    <Typography
+                      color="black"
+                      fontWeight={700}
+                      textAlign="center"
+                    >
+                      Sign Out
+                    </Typography>
                   </Link>
                 </MenuItem>
               )}

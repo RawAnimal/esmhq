@@ -6,7 +6,7 @@ export default function Home() {
     <div>
       <NavBar />
       <Container sx={{ pt: 2 }}>
-        <h1>Main Page</h1>
+        <h1>Dash</h1>
       </Container>
     </div>
   );

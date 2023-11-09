@@ -1,20 +1,3 @@
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-} */
 .MuiToolbar-root button a:link {
   color: white !important;
   font-weight: bold;
@@ -26,12 +9,34 @@ body {
   font-weight: bold;
 }
 
-/* button a:hover {
-  color: white !important;
-  font-weight: bold;
+.activeLink {
+  background-color: rgba(255, 255, 255, 0.1);
+  text-decoration: none;
 }
 
-button a:active {
-  color: white !important;
-  font-weight: bold;
-} */
+.activeLink:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.activeMobileLink {
+  background-color: rgba(41, 97, 197, 0.3);
+  font-weight: 800;
+}
+
+.activeMobileLink a:link {
+  text-decoration: none;
+}
+
+.activeMobileLink:hover {
+  background-color: rgba(41, 97, 197, 0.3);
+}
+
+.mobileLink > a:link {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.mobileLinkFont {
+  color: #000000;
+  font-weight: 700;
+}
