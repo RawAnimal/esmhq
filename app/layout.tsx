@@ -4,9 +4,10 @@ import LocaleProvider from './utilities/LocalizationProvider';
 import ThemeProvider from './utilities/ThemeProvider';
 import CssBaseline from '@mui/material/CssBaseline';
 import AuthProvider from './utilities/AuthProvider';
-
 import { Inter } from 'next/font/google';
 import './globals.css';
+import NavBar from './_components/NavBar';
+//import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -32,6 +33,7 @@ export default function RootLayout({
             <LocaleProvider>
               <CssBaseline>
                 <body className={inter.variable}>
+                  <NavBar />
                   <main>{children}</main>
                 </body>
               </CssBaseline>

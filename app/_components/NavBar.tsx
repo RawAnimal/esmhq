@@ -45,201 +45,200 @@ function NavBar() {
   };
 
   const getActiveClass = (url: string) => {
-    console.log('pathname:', pathname);
-    console.log('url:', url);
-    console.log(pathname === url);
     if (pathname === url) return 'activeLink';
     return '';
   };
 
   const getMobileActiveClass = (url: string) => {
-    console.log('pathname:', pathname);
-    console.log('url:', url);
-    console.log(pathname === url);
     if (pathname === url) return 'activeMobileLink';
     return 'mobileLink';
   };
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, mt: 1 }}>
-            <Link href={'/'}>
-              <IconESMSheild
-                fSize="large"
-                //shieldFill="#db792d"
-                //crossFill="#646569"
-                shieldFill="#FFFFFF"
-                crossFill="#FFFFFF"
-                strokeColor="#FFFFFF"
-                strokeOpacity="0.0"
-              />
-            </Link>
-          </Box>
-          <Box
-            sx={{
-              flexGrow: 1,
-              display: { xs: 'flex', md: 'none' },
-            }}
-          >
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
+    <Box display={session?.user ? 'block' : 'none'}>
+      <AppBar position="static">
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, mt: 1 }}>
+              <Link href={'/'}>
+                <IconESMSheild
+                  fSize="large"
+                  //shieldFill="#db792d"
+                  //crossFill="#646569"
+                  shieldFill="#FFFFFF"
+                  crossFill="#FFFFFF"
+                  strokeColor="#FFFFFF"
+                  strokeOpacity="0.0"
+                />
+              </Link>
+            </Box>
+            <Box
               sx={{
-                display: { xs: 'block', md: 'none' },
+                flexGrow: 1,
+                display: { xs: 'flex', md: 'none' },
               }}
             >
-              {/* mobile menu */}
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: 'block', md: 'none' },
+                }}
+              >
+                {/* mobile menu */}
+                {pages.map((page) => (
+                  <MenuItem
+                    key={page.title}
+                    onClick={handleCloseNavMenu}
+                    className={getMobileActiveClass(page.href)}
+                    sx={{ minWidth: 150 }}
+                  >
+                    <Link className="mobileLinkFont" href={page.href}>
+                      {page.title}
+                    </Link>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+            <Box
+              sx={{
+                display: { xs: 'flex', md: 'none' },
+                mr: 1,
+                mt: 1,
+                flexGrow: 1,
+              }}
+            >
+              <Link href={'/'}>
+                <IconESMSheild
+                  fSize="large"
+                  //shieldFill="#db792d"
+                  //crossFill="#646569"
+                  shieldFill="#FFFFFF"
+                  crossFill="#FFFFFF"
+                  strokeColor="#FFFFFF"
+                  strokeOpacity="0.0"
+                />
+              </Link>
+            </Box>
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {pages.map((page) => (
-                <MenuItem
+                // standard menu
+                <Button
                   key={page.title}
                   onClick={handleCloseNavMenu}
-                  className={getMobileActiveClass(page.href)}
-                  sx={{ minWidth: 150 }}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                  className={getActiveClass(page.href)}
                 >
-                  <Link className="mobileLinkFont" href={page.href}>
-                    {page.title}
-                  </Link>
-                </MenuItem>
+                  <Link href={page.href}>{page.title}</Link>
+                </Button>
               ))}
-            </Menu>
-          </Box>
-          <Box
-            sx={{
-              display: { xs: 'flex', md: 'none' },
-              mr: 1,
-              mt: 1,
-              flexGrow: 1,
-            }}
-          >
-            <Link href={'/'}>
-              <IconESMSheild
-                fSize="large"
-                //shieldFill="#db792d"
-                //crossFill="#646569"
-                shieldFill="#FFFFFF"
-                crossFill="#FFFFFF"
-                strokeColor="#FFFFFF"
-                strokeOpacity="0.0"
-              />
-            </Link>
-          </Box>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              // standard menu
-              <Button
-                key={page.title}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-                className={getActiveClass(page.href)}
+            </Box>
+
+            <Box sx={{ flexGrow: 0 }}>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" />
+              </IconButton>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
               >
-                <Link href={page.href}>{page.title}</Link>
-              </Button>
-            ))}
-          </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt="Remy Sharp" />
-            </IconButton>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {status === 'authenticated' && (
-                <MenuItem
-                  onClick={handleCloseUserMenu}
-                  sx={{ fontWeight: 800, minWidth: 150 }}
-                >
-                  {session.user.firstName} {session.user.lastName}
-                </MenuItem>
-              )}
-
-              {status === 'authenticated' && (
-                <MenuItem
-                  onClick={handleCloseUserMenu}
-                  className={getMobileActiveClass('/users/profile')}
-                >
-                  <Link href="/users/profile">
-                    <Typography
-                      color="black"
-                      fontWeight={700}
-                      textAlign="center"
-                    >
-                      Profile
-                    </Typography>
-                  </Link>
-                </MenuItem>
-              )}
-              {status === 'authenticated' && (
-                <MenuItem onClick={handleCloseUserMenu} className="mobileLink">
-                  <Link
-                    href="#"
-                    onClick={() => {
-                      signOut();
-                    }}
+                {status === 'authenticated' && (
+                  <MenuItem
+                    onClick={handleCloseUserMenu}
+                    sx={{ fontWeight: 800, minWidth: 150 }}
                   >
-                    <Typography
-                      color="black"
-                      fontWeight={700}
-                      textAlign="center"
-                    >
-                      Sign Out
-                    </Typography>
-                  </Link>
-                </MenuItem>
-              )}
-              {status === 'unauthenticated' && (
-                <MenuItem onClick={handleCloseUserMenu}>
-                  <Link
-                    href="#"
-                    onClick={() => {
-                      signIn();
-                    }}
+                    {session.user.firstName} {session.user.lastName}
+                  </MenuItem>
+                )}
+
+                {status === 'authenticated' && (
+                  <MenuItem
+                    onClick={handleCloseUserMenu}
+                    className={getMobileActiveClass('/users/profile')}
                   >
-                    <Typography textAlign="center">Sign In</Typography>
-                  </Link>
-                </MenuItem>
-              )}
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+                    <Link href="/users/profile">
+                      <Typography
+                        color="black"
+                        fontWeight={700}
+                        textAlign="center"
+                      >
+                        Profile
+                      </Typography>
+                    </Link>
+                  </MenuItem>
+                )}
+                {status === 'authenticated' && (
+                  <MenuItem
+                    onClick={handleCloseUserMenu}
+                    className="mobileLink"
+                  >
+                    <Link
+                      href="#"
+                      onClick={() => {
+                        signOut();
+                      }}
+                    >
+                      <Typography
+                        color="black"
+                        fontWeight={700}
+                        textAlign="center"
+                      >
+                        Sign Out
+                      </Typography>
+                    </Link>
+                  </MenuItem>
+                )}
+                {status === 'unauthenticated' && (
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Link
+                      href="#"
+                      onClick={() => {
+                        signIn();
+                      }}
+                    >
+                      <Typography textAlign="center">Sign In</Typography>
+                    </Link>
+                  </MenuItem>
+                )}
+              </Menu>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+    </Box>
   );
 }
 export default NavBar;

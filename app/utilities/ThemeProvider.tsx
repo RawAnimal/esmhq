@@ -2,7 +2,7 @@
 import { ThemeProvider as TProvider, createTheme } from '@mui/material/styles';
 import { PropsWithChildren } from 'react';
 
-const theme = createTheme({
+const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
@@ -14,8 +14,14 @@ const theme = createTheme({
   },
 });
 
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
 const ThemeProvider = ({ children }: PropsWithChildren) => {
-  return <TProvider theme={theme}>{children}</TProvider>;
+  return <TProvider theme={lightTheme}>{children}</TProvider>;
 };
 
 export default ThemeProvider;
