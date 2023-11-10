@@ -17,6 +17,7 @@ import IconESMSheild from '@/app/icons/IconESMSheild';
 import Link from 'next/link';
 import { signOut, useSession, signIn } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
+import ThemeToggle from './ThemeToggle';
 
 const pages = [
   { title: 'Dash', href: '/' },
@@ -154,7 +155,6 @@ function NavBar() {
                 </Button>
               ))}
             </Box>
-
             <Box sx={{ flexGrow: 0 }}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" />
@@ -200,6 +200,15 @@ function NavBar() {
                     </Link>
                   </MenuItem>
                 )}
+                <MenuItem
+                  onClick={handleCloseUserMenu}
+                  sx={{
+                    display: { xs: 'flex', md: 'none' },
+                    justifyContent: 'center',
+                  }}
+                >
+                  <ThemeToggle />
+                </MenuItem>
                 {status === 'authenticated' && (
                   <MenuItem
                     onClick={handleCloseUserMenu}
@@ -234,6 +243,9 @@ function NavBar() {
                   </MenuItem>
                 )}
               </Menu>
+            </Box>
+            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              <ThemeToggle />
             </Box>
           </Toolbar>
         </Container>

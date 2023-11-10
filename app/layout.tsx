@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 import QueryClientProvider from './utilities/QueryClientProvider';
 import LocaleProvider from './utilities/LocalizationProvider';
-import ThemeProvider from './utilities/ThemeProvider';
+//import ThemeProvider from './utilities/ThemeProvider';
 import CssBaseline from '@mui/material/CssBaseline';
 import AuthProvider from './utilities/AuthProvider';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import NavBar from './_components/NavBar';
-//import { ThemeProvider, createTheme } from '@mui/material/styles';
+import MUIWrapper from './utilities/MUIWrapper';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -27,7 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <ThemeProvider>
+      <MUIWrapper>
         <QueryClientProvider>
           <AuthProvider>
             <LocaleProvider>
@@ -40,7 +40,7 @@ export default function RootLayout({
             </LocaleProvider>
           </AuthProvider>
         </QueryClientProvider>
-      </ThemeProvider>
+      </MUIWrapper>
     </html>
   );
 }
