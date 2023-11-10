@@ -19,16 +19,12 @@
 }
 
 .activeMobileLink {
-  background-color: rgba(41, 97, 197, 0.3);
-  font-weight: 800;
+  background-color: rgba(0, 0, 0, 0.08);
 }
 
-.activeMobileLink a:link {
-  text-decoration: none;
-}
-
-.activeMobileLink:hover {
-  background-color: rgba(41, 97, 197, 0.3);
+.activeMobileLink:before {
+  content: '\00BB';
+  margin-right: 6px;
 }
 
 .mobileLink > a:link {

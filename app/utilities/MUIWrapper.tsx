@@ -33,6 +33,12 @@ export default function MUIWrapper({
     () =>
       createTheme({
         palette: {
+          primary: {
+            main: '#e87422',
+          },
+          secondary: {
+            main: '##656669',
+          },
           mode,
         },
       }),

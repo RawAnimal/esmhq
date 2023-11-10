@@ -1,11 +1,10 @@
 import type { Metadata } from 'next';
 import QueryClientProvider from './utilities/QueryClientProvider';
 import LocaleProvider from './utilities/LocalizationProvider';
-//import ThemeProvider from './utilities/ThemeProvider';
 import CssBaseline from '@mui/material/CssBaseline';
 import AuthProvider from './utilities/AuthProvider';
 import { Inter } from 'next/font/google';
-import './globals.css';
+import './utilities/globals.css';
 import NavBar from './_components/NavBar';
 import MUIWrapper from './utilities/MUIWrapper';
 
