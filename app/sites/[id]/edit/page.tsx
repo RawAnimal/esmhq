@@ -16,12 +16,9 @@ const EditSitePage = async ({ params }: Props) => {
   if (!site) notFound();
 
   return (
-    <>
-      <NavBar />
-      <Container sx={{ pt: 2, flexGrow: 1 }}>
-        <SiteForm site={site} />
-      </Container>
-    </>
+    <Container sx={{ pt: 2, flexGrow: 1 }}>
+      <SiteForm site={site} />
+    </Container>
   );
 };
 

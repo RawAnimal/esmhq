@@ -37,7 +37,10 @@ export default function MUIWrapper({
             main: '#e87422',
           },
           secondary: {
-            main: '##656669',
+            main: '#656669',
+          },
+          error: {
+            main: '#CC0000',
           },
           mode,
         },

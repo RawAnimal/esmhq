@@ -36,3 +36,8 @@
   color: #000000;
   font-weight: 700;
 }
+
+.telNumber:before {
+  content: '✆';
+  margin-right: 6px;
+}

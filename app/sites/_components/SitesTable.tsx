@@ -11,12 +11,14 @@ import {
   MRT_ToggleFiltersButton,
   type MRT_ColumnDef,
 } from 'material-react-table';
+import { Link as MuiLink } from '@mui/material/';
 import SiteStatusBadge from './SiteStatusBadge';
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Typography, IconButton, Tooltip, Alert } from '@mui/material';
 import IconTT from '@/app/icons/IconTT';
 import { PrintSharp } from '@mui/icons-material';
+import LinkOffIcon from '@mui/icons-material/LinkOff';
 
 //If using TypeScript, define the shape of your data (optional, but recommended)
 interface Site {
@@ -54,9 +56,15 @@ const SitesTable = () => {
         id: 'address',
         header: 'Address',
         Cell: ({ cell, row }) => (
-          <Link href={`/sites/${row.original.id}`}>
-            {row.original.streetNumberName}, {row.original.cityTown},{' '}
-            {row.original.province}
+          <Link href={`/sites/${row.original.id}`} passHref>
+            <MuiLink
+              sx={{ fontWeight: 600, textDecoration: 'none' }}
+              underline="none"
+              component="button"
+            >
+              {row.original.streetNumberName}, {row.original.cityTown},{' '}
+              {row.original.province}
+            </MuiLink>
           </Link>
         ),
       },
@@ -87,23 +95,20 @@ const SitesTable = () => {
       },
       {
         accessorFn: (row) => `${row.schedulerURL}`,
-        Header: () => <IconTT fSize="small" bgFill="#757575" />,
+        Header: () => <IconTT fSize="small" bgFill="#c23138" />,
         header: 'Tracktik',
         enableColumnFilter: false,
         enableSorting: false,
         Cell: ({ row }) => (
           <div>
             {row.original.schedulerURL ? (
-              <Link target="_blank" href={row.original.schedulerURL}>
-                <InsertLinkIcon
-                  sx={{
-                    ':hover': { color: 'orange' },
-                    color: 'black',
-                  }}
-                />
+              <Link target="_blank" href={row.original.schedulerURL} passHref>
+                <MuiLink>
+                  <InsertLinkIcon />
+                </MuiLink>
               </Link>
             ) : (
-              ''
+              <LinkOffIcon />
             )}
           </div>
         ),

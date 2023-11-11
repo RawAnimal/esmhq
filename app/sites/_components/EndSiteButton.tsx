@@ -75,10 +75,11 @@ const EndSiteButton = ({ siteId }: { siteId: number }) => {
         <Button
           fullWidth
           variant="contained"
-          color="warning"
+          color="error"
           onClick={handleClickOpen}
           disabled={isEnding}
           startIcon={<EventBusyIcon />}
+          sx={{ whiteSpace: 'nowrap' }}
         >
           End Site
           {dialogOpen && <CircularProgress size={20} sx={{ ml: 1 }} />}
@@ -112,13 +113,13 @@ const EndSiteButton = ({ siteId }: { siteId: number }) => {
               Cancel
             </Button>
             <Button
-              color="warning"
+              color="error"
               variant="contained"
               onClick={handleClose}
               autoFocus
               type="submit"
             >
-              OK
+              End Site
             </Button>
           </DialogActions>
         </form>

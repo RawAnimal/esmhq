@@ -37,7 +37,7 @@ const DeleteSiteButton = ({ siteId }: { siteId: number }) => {
         fullWidth
         disabled={openDialog}
         variant="contained"
-        color="warning"
+        color="error"
         onClick={handleClickOpenDialog}
         startIcon={<DeleteIcon />}
       >
@@ -83,7 +83,7 @@ const DeleteSiteButton = ({ siteId }: { siteId: number }) => {
             }}
             autoFocus
             variant="contained"
-            color="warning"
+            color="error"
           >
             OK
             {isDeleting && <CircularProgress size={20} sx={{ ml: 1 }} />}

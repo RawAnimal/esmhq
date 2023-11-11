@@ -44,6 +44,7 @@ const ReopenSiteButton = ({ siteId }: { siteId: number }) => {
           startIcon={<EventRepeatIcon />}
           onClick={handleClickOpen}
           disabled={dialogOpen}
+          sx={{ whiteSpace: 'nowrap' }}
         >
           Reopen Site
           {dialogOpen && <CircularProgress size={20} sx={{ ml: 1 }} />}

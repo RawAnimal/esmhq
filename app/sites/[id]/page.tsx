@@ -1,18 +1,29 @@
-import NavBar from '@/app/_components/NavBar';
-import { getServerSession } from 'next-auth';
-import prisma from '@/prisma/client';
-import { notFound } from 'next/navigation';
-import { Container, Box, Typography, Button, Card } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
-import prettify from '@/app/utilities/Prettify';
-import getTel from '@/app/utilities/GetTel';
-import Link from 'next/link';
-import EditIcon from '@mui/icons-material/Edit';
 import BackButton from '@/app/_components/BackButton';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import DeleteSiteButton from '../_components/DeleteSiteButton';
-import AssignManagerSelect from '../_components/AssignManagerSelect';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import getTel from '@/app/utilities/GetTel';
+import prettify from '@/app/utilities/Prettify';
+import prisma from '@/prisma/client';
+import EditIcon from '@mui/icons-material/Edit';
+import InsertLinkIcon from '@mui/icons-material/InsertLink';
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import LinkOffIcon from '@mui/icons-material/LinkOff';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  Divider,
+  Link as MuiLink,
+  Typography,
+} from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
+import { getServerSession } from 'next-auth';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import AssignManagerSelect from '../_components/AssignManagerSelect';
+import DeleteSiteButton from '../_components/DeleteSiteButton';
 import EndSiteButton from '../_components/EndSiteButton';
 import ReopenSiteButton from '../_components/ReopenSiteButton';
 
@@ -102,53 +113,63 @@ const SiteDetailsPage = async ({ params }: Props) => {
   };
 
   return (
-    <>
-      <NavBar />
-      <Container sx={{ pt: 2, flexGrow: 1 }}>
-        <Grid xs={12}>
-          <Box
-            display={'flex'}
-            sx={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'column',
-              bgcolor: '#F4F4F4',
-              border: '1px solid #E6E6E6',
-              borderRadius: 1,
-              minHeight: 56,
-              marginBottom: 2,
-              padding: 1,
-            }}
+    <Container sx={{ pt: 2, flexGrow: 1, mb: 2 }}>
+      <Grid xs={12}>
+        <Card
+          variant="outlined"
+          sx={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            alignContent: 'center',
+            flexDirection: 'column',
+            borderRadius: 1,
+            marginBottom: 2,
+            padding: 3,
+          }}
+        >
+          <Typography
+            variant="h6"
+            textTransform="uppercase"
+            lineHeight={1}
+            textAlign={'center'}
           >
-            <Typography
-              variant="h6"
-              textTransform="uppercase"
-              lineHeight={1}
-              textAlign={'center'}
-            >
-              {site.streetNumberName}, {site.cityTown}, {site.province}
-            </Typography>
-            <Typography
-              variant="subtitle2"
-              textTransform="uppercase"
-              lineHeight={1}
-              textAlign={'center'}
-            >
-              {site.clPrefix && site.clPrefix} {site.locID && site.locID}
-            </Typography>
-          </Box>
-        </Grid>
+            {site.streetNumberName}, {site.cityTown}, {site.province}
+          </Typography>
+          <Typography
+            variant="subtitle2"
+            textTransform="uppercase"
+            lineHeight={1}
+            textAlign={'center'}
+          >
+            {site.clPrefix && site.clPrefix} {site.locID && site.locID}
+          </Typography>
+        </Card>
+      </Grid>
 
-        <Grid container>
-          <Grid
-            xs={12}
-            sm={12}
-            md={9}
-            lg={10}
-            xl={10}
-            order={{ xs: 2, sm: 2, md: 1 }}
-          >
-            <Card>
+      <Grid container>
+        <Grid
+          xs={12}
+          sm={12}
+          md={9}
+          lg={9}
+          xl={9}
+          order={{ xs: 2, sm: 2, md: 1 }}
+        >
+          <Card variant="outlined">
+            <CardHeader
+              title={
+                <Typography
+                  variant="subtitle1"
+                  textTransform="uppercase"
+                  lineHeight={1}
+                  textAlign={'center'}
+                >
+                  Site Details
+                </Typography>
+              }
+            />
+            <Divider />
+            <CardContent>
               {/* File Number - Assignment Details */}
               <Grid
                 container
@@ -311,7 +332,7 @@ const SiteDetailsPage = async ({ params }: Props) => {
                   </Typography>
                 </Box>
               </Grid>
-              {/* Assignee and Vehicle */}
+              {/* Est Hours and Scheduler */}
               <Grid
                 container
                 sx={{
@@ -330,58 +351,58 @@ const SiteDetailsPage = async ({ params }: Props) => {
                     {site.estHours}
                   </Typography>
                 </Box>
+                <Box flex={1} ml={1}>
+                  <Typography
+                    display={'inline-block'}
+                    lineHeight={'1'}
+                    variant="body1"
+                    sx={{ width: 100 }}
+                  >
+                    Scheduler:
+                  </Typography>
+                  <Box display={'inline-block'}>
+                    {site.schedulerURL ? (
+                      <Link target="_blank" href={site.schedulerURL} passHref>
+                        <MuiLink>
+                          <InsertLinkIcon />
+                        </MuiLink>
+                      </Link>
+                    ) : (
+                      <LinkOffIcon />
+                    )}
+                  </Box>
+                </Box>
+              </Grid>
+              {/* Address */}
+              <Grid
+                container
+                sm={12}
+                sx={{
+                  flexDirection: { sm: 'row' },
+                }}
+              >
                 <Box flex={1} margin={1}>
                   <Typography
                     display={'inline-block'}
                     variant="body1"
                     sx={{ width: 100 }}
                   >
-                    Scheduler:
+                    Details:
                   </Typography>
                   <Typography
                     display={'inline-block'}
                     variant="body1"
-                    sx={{ width: 100, whiteSpace: 'nowrap' }}
+                    sx={{ mt: 1.5 }}
                   >
-                    {site.schedulerURL ? (
-                      <Link href={site.schedulerURL} target="_blank">
-                        TrackTik
-                      </Link>
-                    ) : (
-                      ''
-                    )}
-                  </Typography>
-                </Box>
-              </Grid>
-              {/* Details */}
-              <Grid
-                container
-                sm={12}
-                sx={{
-                  flexDirection: { xs: 'column', sm: 'row' },
-                }}
-              >
-                <Box flex={1} margin={1}>
-                  <Typography display={'inline-block'} variant="body1">
                     {site.details}
                   </Typography>
                 </Box>
               </Grid>
-              {/* Client Details Header */}
-              <Box
-                display={'flex'}
-                sx={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  bgcolor: '#F4F4F4',
-                  border: '1px solid #E6E6E6',
-                  borderRadius: 1,
-                  minHeight: 56,
-                  marginTop: 1,
-                  marginBottom: 2,
-                  padding: 1,
-                }}
-              >
+            </CardContent>
+            <Divider />
+            {/* Client Details Header */}
+            <CardHeader
+              title={
                 <Typography
                   variant="subtitle1"
                   textTransform="uppercase"
@@ -390,7 +411,10 @@ const SiteDetailsPage = async ({ params }: Props) => {
                 >
                   Client Details
                 </Typography>
-              </Box>
+              }
+            />
+            <Divider />
+            <CardContent>
               {/* Client Details */}
               <Grid
                 container
@@ -418,9 +442,15 @@ const SiteDetailsPage = async ({ params }: Props) => {
                   >
                     Phone:
                   </Typography>
-                  <Typography display={'inline-block'} variant="body1">
-                    <a href={getTel(site.clPhone)}>{site.clPhone}</a>
-                  </Typography>
+                  <Link href={getTel(site.clPhone)} passHref>
+                    <MuiLink
+                      sx={{ fontWeight: 600, textDecoration: 'none' }}
+                      underline="none"
+                      component="button"
+                    >
+                      {String.fromCharCode(9742) + ' ' + site.clPhone}
+                    </MuiLink>
+                  </Link>
                 </Box>
               </Grid>
               <Grid
@@ -438,7 +468,15 @@ const SiteDetailsPage = async ({ params }: Props) => {
                     Email:
                   </Typography>
                   <Typography display={'inline-block'} variant="body1">
-                    <Link href={`mailto:${site.clEmail}`}>{site.clEmail}</Link>
+                    <Link href={`mailto:${site.clEmail}`} passHref>
+                      <MuiLink
+                        sx={{ fontWeight: 600, textDecoration: 'none' }}
+                        underline="none"
+                        component="button"
+                      >
+                        {site.clEmail}
+                      </MuiLink>
+                    </Link>
                   </Typography>
                 </Box>
                 <Box flex={1} margin={1}>
@@ -496,21 +534,11 @@ const SiteDetailsPage = async ({ params }: Props) => {
                   </Typography>
                 </Box>
               </Grid>
-              {/* Principle Header */}
-              <Box
-                display={'flex'}
-                sx={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  bgcolor: '#F4F4F4',
-                  border: '1px solid #E6E6E6',
-                  borderRadius: 1,
-                  minHeight: 56,
-                  marginTop: 1,
-                  marginBottom: 2,
-                  padding: 1,
-                }}
-              >
+            </CardContent>
+            <Divider />
+            {/* Principle Header */}
+            <CardHeader
+              title={
                 <Typography
                   variant="subtitle1"
                   textTransform="uppercase"
@@ -519,7 +547,10 @@ const SiteDetailsPage = async ({ params }: Props) => {
                 >
                   Principle Details
                 </Typography>
-              </Box>
+              }
+            />
+            <Divider />
+            <CardContent>
               {/* Principle Details */}
               <Grid
                 container
@@ -547,13 +578,19 @@ const SiteDetailsPage = async ({ params }: Props) => {
                   >
                     Phone:
                   </Typography>
-                  <Typography display={'inline-block'} variant="body1">
-                    {site.prPhone ? (
-                      <a href={getTel(site.prPhone)}>{site.prPhone}</a>
-                    ) : (
-                      ''
-                    )}
-                  </Typography>
+                  {site.prPhone ? (
+                    <Link href={getTel(site.prPhone)} passHref>
+                      <MuiLink
+                        sx={{ fontWeight: 600, textDecoration: 'none' }}
+                        underline="none"
+                        component="button"
+                      >
+                        {String.fromCharCode(9742) + ' ' + site.prPhone}
+                      </MuiLink>
+                    </Link>
+                  ) : (
+                    ''
+                  )}
                 </Box>
               </Grid>
               <Grid
@@ -570,9 +607,19 @@ const SiteDetailsPage = async ({ params }: Props) => {
                   >
                     Email:
                   </Typography>
-                  <Typography display={'inline-block'} variant="body1">
-                    <Link href={`mailto:${site.prEmail}`}>{site.prEmail}</Link>
-                  </Typography>
+                  {site.prEmail ? (
+                    <Link href={`mailto:${site.prEmail}`} passHref>
+                      <MuiLink
+                        sx={{ fontWeight: 600, textDecoration: 'none' }}
+                        underline="none"
+                        component="button"
+                      >
+                        {site.prEmail}
+                      </MuiLink>
+                    </Link>
+                  ) : (
+                    ''
+                  )}
                 </Box>
                 <Box flex={1} margin={1}>
                   <Typography
@@ -630,19 +677,34 @@ const SiteDetailsPage = async ({ params }: Props) => {
                   </Typography>
                 </Box>
               </Grid>
-            </Card>
-          </Grid>
-
-          <Grid
-            container
-            xs={12}
-            sm={12}
-            md={3}
-            lg={2}
-            xl={2}
-            order={{ xs: 1, sm: 1, md: 2 }}
-            flexDirection={{ xs: 'row', md: 'column' }}
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid
+          container
+          xs={12}
+          sm={12}
+          md={3}
+          lg={3}
+          xl={3}
+          order={{ xs: 1, sm: 1, md: 2 }}
+          flexDirection={{ xs: 'row', md: 'column' }}
+        >
+          <Box
+            sx={{ flex: { xs: '1', md: '0' } }}
+            p={0}
+            mb={2}
+            marginLeft={2}
+            marginRight={2}
           >
+            <BackButton label="Back" icon={<KeyboardDoubleArrowLeftIcon />} />
+          </Box>
+
+          {showAssignButton()}
+          {showEditButton()}
+          {showReopenSiteButton()}
+          {showEndSiteButton()}
+          {session?.user.role === 'WEBADMIN' && (
             <Box
               sx={{ flex: { xs: '1', md: '0' } }}
               p={0}
@@ -650,31 +712,12 @@ const SiteDetailsPage = async ({ params }: Props) => {
               marginLeft={2}
               marginRight={2}
             >
-              <BackButton
-                label="Back"
-                icon={<KeyboardDoubleArrowLeftIcon />}
-              />
+              <DeleteSiteButton siteId={site.id} />
             </Box>
-
-            {showAssignButton()}
-            {showEditButton()}
-            {showReopenSiteButton()}
-            {showEndSiteButton()}
-            {session?.user.role === 'WEBADMIN' && (
-              <Box
-                sx={{ flex: { xs: '1', md: '0' } }}
-                p={0}
-                mb={2}
-                marginLeft={2}
-                marginRight={2}
-              >
-                <DeleteSiteButton siteId={site.id} />
-              </Box>
-            )}
-          </Grid>
+          )}
         </Grid>
-      </Container>
-    </>
+      </Grid>
+    </Container>
   );
 };
 
