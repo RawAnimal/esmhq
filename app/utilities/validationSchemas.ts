@@ -31,6 +31,25 @@ export const userSchema = z.object({
 //   message: "Passwords must match",
 // });
 
+export const userPatchSchema = z.object({
+  firstName: z.string().min(1).max(25, '<= 25 characters').optional(),
+  lastName: z.string().min(1).max(25, '<= characters').optional(),
+  title: z.string().max(25, '<= characters').optional().optional(),
+  email: z.string().email().max(255, '<= 255 characters').optional(),
+  phone: z
+    .string()
+    .regex(phoneRegEx, 'Format: 000 000-0000')
+    .min(10, '>= 10 characters')
+    .max(12, '<= 12 characters')
+    .or(z.literal('', { errorMap: () => ({ message: 'Error prPhone' }) }))
+    .optional(),
+  role: z
+    .enum(['WEBUSER', 'WEBADMIN', 'ADMIN', 'EXEC'])
+    .default('WEBUSER')
+    .optional(),
+  image: z.string().url().optional(),
+});
+
 export const siteSchema = z.object({
   startDate: z.coerce.date(),
   streetNumberName: z
