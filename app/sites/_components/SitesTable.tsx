@@ -11,7 +11,7 @@ import {
   MRT_ToggleFiltersButton,
   type MRT_ColumnDef,
 } from 'material-react-table';
-import { Link as MuiLink } from '@mui/material/';
+import { Link as MuiLink, Box } from '@mui/material/';
 import SiteStatusBadge from './SiteStatusBadge';
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -103,7 +103,7 @@ const SitesTable = () => {
           <div>
             {row.original.schedulerURL ? (
               <Link target="_blank" href={row.original.schedulerURL} passHref>
-                <MuiLink>
+                <MuiLink component="button">
                   <InsertLinkIcon />
                 </MuiLink>
               </Link>

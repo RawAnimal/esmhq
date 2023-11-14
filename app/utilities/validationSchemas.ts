@@ -7,34 +7,46 @@ const phoneRegEx = /\d{3}\s\d{3}[-‑]\d{4}/;
 const passwordRegEx =
   /^(?!.*\s)(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).{5,15}$/;
 
-export const userSchema = z.object({
-  firstName: z.string().min(1).max(25, '<= 25 characters'),
-  lastName: z.string().min(1).max(25, '<= characters'),
-  title: z.string().max(25, '<= characters').optional(),
-  email: z.string().email().max(255, '<= 255 characters'),
-  phone: z
-    .string()
-    .regex(phoneRegEx, 'Format: 000 000-0000')
-    .min(10, '>= 10 characters')
-    .max(12, '<= 12 characters')
-    .or(z.literal('', { errorMap: () => ({ message: 'Error prPhone' }) }))
-    .optional(),
-  role: z.enum(['WEBUSER', 'WEBADMIN', 'ADMIN', 'EXEC']).default('WEBUSER'),
-  password: z
-    .string()
-    .regex(passwordRegEx, 'No spaces. 5-15 of A-a-1-(*/!/#/%)')
-    .min(5, '> 5 characters')
-    .max(15, '<= 15 characters'),
-  //confirmPassword: z.string().min(5, "> 5 characters").optional(),
-});
-// .refine((data) => data.password === data.confirmPassword, {
-//   message: "Passwords must match",
-// });
+export const userSchema = z
+  .object({
+    firstName: z.string().min(1).max(25, '<= 25 characters'),
+    lastName: z.string().min(1).max(25, '<= characters'),
+    title: z.string().max(25, '<= characters').optional(),
+    email: z.string().email().max(255, '<= 255 characters'),
+    phone: z
+      .string()
+      .regex(phoneRegEx, 'Format: 000 000-0000')
+      .min(10, '>= 10 characters')
+      .max(12, '<= 12 characters')
+      .or(z.literal('', { errorMap: () => ({ message: 'Error prPhone' }) }))
+      .optional(),
+    role: z.enum(['WEBUSER', 'WEBADMIN', 'ADMIN', 'EXEC']).default('WEBUSER'),
+    password: z
+      .string()
+      .regex(passwordRegEx, 'No spaces. 5-15 of A-a-1-(*/!/#/%)')
+      .min(5, '> 5 characters')
+      .max(15, '<= 15 characters'),
+    confirmPassword: z.string().optional(),
+  })
+  .refine(
+    (values) => {
+      return values.password === values.confirmPassword;
+    },
+    {
+      message: 'Passwords must match',
+      path: ['confirmPassword'],
+    }
+  );
 
 export const userPatchSchema = z.object({
-  firstName: z.string().min(1).max(25, '<= 25 characters').optional(),
-  lastName: z.string().min(1).max(25, '<= characters').optional(),
-  title: z.string().max(25, '<= characters').optional().optional(),
+  firstName: z
+    .string()
+    .min(1)
+    .max(25, '<= 25 characters')
+    .optional()
+    .nullish(),
+  lastName: z.string().min(1).max(25, '<= characters').optional().nullish(),
+  title: z.string().max(25, '<= characters').optional().optional().nullish(),
   email: z.string().email().max(255, '<= 255 characters').optional(),
   phone: z
     .string()
@@ -42,13 +54,33 @@ export const userPatchSchema = z.object({
     .min(10, '>= 10 characters')
     .max(12, '<= 12 characters')
     .or(z.literal('', { errorMap: () => ({ message: 'Error prPhone' }) }))
-    .optional(),
+    .optional()
+    .nullish(),
   role: z
     .enum(['WEBUSER', 'WEBADMIN', 'ADMIN', 'EXEC'])
     .default('WEBUSER')
     .optional(),
-  image: z.string().url().optional(),
+  image: z.string().url().optional().nullish(),
 });
+
+export const changePasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .regex(passwordRegEx, 'No spaces. 5-15 of A-a-1-(*/!/#/%)')
+      .min(5, '> 5 characters')
+      .max(15, '<= 15 characters'),
+    confirmPassword: z.string(),
+  })
+  .refine(
+    (values) => {
+      return values.password === values.confirmPassword;
+    },
+    {
+      message: 'Passwords must match',
+      path: ['confirmPassword'],
+    }
+  );
 
 export const siteSchema = z.object({
   startDate: z.coerce.date(),

@@ -1,4 +1,3 @@
-import NavBar from '@/app/_components/NavBar';
 import prisma from '@/prisma/client';
 import { Container } from '@mui/material';
 import { notFound } from 'next/navigation';

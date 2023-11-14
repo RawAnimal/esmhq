@@ -1,3 +1,4 @@
+'use client';
 import {
   Card,
   CardContent,
@@ -7,13 +8,14 @@ import {
   Grid,
   Typography,
   Box,
-  Button,
-  Avatar,
 } from '@mui/material';
 import DefaultAvatar from '@/app/public/defaultAvatar.png';
 import Image from 'next/image';
+import ChangePasswordButton from '../_components/ChangePasswordButton';
+import { useSession } from 'next-auth/react';
 
 const ProfilePage = () => {
+  const { data: session } = useSession();
   return (
     <Container sx={{ pt: 2, flexGrow: 1, mb: 2 }}>
       <Grid container>
@@ -33,13 +35,77 @@ const ProfilePage = () => {
                   textTransform="uppercase"
                   lineHeight={1}
                   textAlign={'center'}
+                  noWrap
                 >
-                  Site Details
+                  {session?.user.firstName} {session?.user.lastName}
                 </Typography>
               }
             />
             <Divider />
-            <CardContent></CardContent>
+            <CardContent>
+              <Grid container>
+                <Grid
+                  container
+                  sx={{
+                    flexDirection: { xs: 'column', sm: 'row' },
+                  }}
+                >
+                  <Box flex={1} margin={1}>
+                    <Typography
+                      display={'inline-block'}
+                      variant="body1"
+                      sx={{ width: 100 }}
+                      fontWeight={600}
+                    >
+                      Title:
+                    </Typography>
+                    <Typography display={'inline-block'} variant="body1">
+                      {session?.user.title}
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid
+                  container
+                  sx={{
+                    flexDirection: { xs: 'column', sm: 'row' },
+                  }}
+                >
+                  <Box flex={1} margin={1}>
+                    <Typography
+                      display={'inline-block'}
+                      variant="body1"
+                      sx={{ width: 100 }}
+                      fontWeight={600}
+                    >
+                      Phone:
+                    </Typography>
+                    <Typography display={'inline-block'} variant="body1">
+                      {session?.user.phone}
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid
+                  container
+                  sx={{
+                    flexDirection: { xs: 'column', sm: 'row' },
+                  }}
+                >
+                  <Box flex={1} margin={1}>
+                    <Typography
+                      display={'inline-block'}
+                      variant="body1"
+                      sx={{ width: 100 }}
+                      fontWeight={600}
+                    >
+                      Email:
+                    </Typography>
+                    <Typography display={'inline-block'} variant="body1">
+                      {session?.user.email}
+                    </Typography>
+                  </Box>
+                </Grid>
+              </Grid>
+            </CardContent>
           </Card>
         </Grid>
         <Grid
@@ -83,9 +149,7 @@ const ProfilePage = () => {
             marginLeft={2}
             marginRight={2}
           >
-            <Button fullWidth variant="contained">
-              Actions
-            </Button>
+            <ChangePasswordButton userId={session?.user.id!} />
           </Box>
         </Grid>
       </Grid>

@@ -179,17 +179,30 @@ function NavBar() {
                 />
               </Link>
             </Box>
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
-                // standard menu
+            <Box
+              sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, ml: 2 }}
+            >
+              {/* standard menu */}
+              <Button
+                onClick={handleCloseNavMenu}
+                className={getActiveClass('/')}
+              >
+                <Link href="/">Dash</Link>
+              </Button>
+              <Button
+                onClick={handleCloseNavMenu}
+                className={getActiveClass('/sites')}
+              >
+                <Link href="/sites">Sites</Link>
+              </Button>
+              {session?.user.role === 'WEBADMIN' && (
                 <Button
-                  key={page.title}
                   onClick={handleCloseNavMenu}
-                  className={getActiveClass(page.href)}
+                  className={getActiveClass('/users')}
                 >
-                  <Link href={page.href}>{page.title}</Link>
+                  <Link href="/users">Users</Link>
                 </Button>
-              ))}
+              )}
             </Box>
             <Box sx={{ flexGrow: 0 }}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

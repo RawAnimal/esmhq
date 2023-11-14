@@ -70,6 +70,7 @@ const SignIn = () => {
             label="Password"
             variant="outlined"
             autoComplete="off"
+            aria-autocomplete="none"
             required
             defaultValue=""
             {...register('password')}
