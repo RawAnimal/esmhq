@@ -33,6 +33,7 @@ import {
 } from 'react-hook-form-mui';
 import { z } from 'zod';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { useSession } from 'next-auth/react';
 
 type SiteForm = z.infer<typeof siteSchema>;
 type SiteFormMinus = Omit<SiteForm, 'startDate'>;
@@ -41,6 +42,7 @@ interface NewSiteForm extends SiteFormMinus {
 }
 
 const NewSitePage = () => {
+  const { data: session } = useSession();
   const router = useRouter();
   const [error, setError] = useState('');
   const [isSubmitting, setSubmitting] = useState(false);
@@ -72,8 +74,39 @@ const NewSitePage = () => {
       <form
         onSubmit={handleSubmit(async (data) => {
           try {
-            await axios.post('/api/sites', data);
             setSubmitting(true);
+            const newData = Object.assign(data, {
+              assignedToUserId: session?.user.id,
+            });
+            await axios.post('/api/sites', newData);
+            await fetch('/api/email/site/new', {
+              method: 'POST',
+              body: JSON.stringify({
+                startDate: data.startDate.toString(),
+                streetNumberName: data.streetNumberName,
+                cityTown: data.cityTown,
+                province: data.province,
+                postal: data.postal,
+                assignment: data.assignment,
+                assignmentType: data.assignmentType,
+                withVehicle: data.withVehicle,
+                details: data.details,
+                clName: data.clName,
+                clCompany: data.clCompany,
+                clPhone: data.clPhone,
+                clEmail: data.clEmail,
+                clAddress: data.clAddress,
+                clSSFNs: data.clSSFNs,
+                prName: data.prName,
+                prCompany: data.prCompany,
+                prPhone: data.prPhone,
+                prEmail: data.prEmail,
+                prAddress: data.prAddress,
+                prSSFNs: data.prSSFNs,
+                assignedToFirstName: session?.user.firstName,
+                assignedToLastName: session?.user.lastName,
+              }),
+            });
             router.push('/sites');
             router.refresh();
           } catch (error) {
