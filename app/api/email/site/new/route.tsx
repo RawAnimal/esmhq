@@ -33,8 +33,8 @@ export async function POST(request: Request) {
   try {
     const data = await resend.emails.send({
       from: 'webadmin@email.esmhq.com',
-      to: ['skjsweeney@gmail.com'],
-      subject: 'Hello world',
+      to: ['skjsweeney@gmail.com', 'hamzadesai@esmsolutions.ca'],
+      subject: 'ESM :: New Site',
       react: TemplateNewSite({
         startDate,
         streetNumberName,
