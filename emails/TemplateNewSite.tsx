@@ -59,7 +59,7 @@ const TemplateNewSite = (props: TemplateNewSiteProps) => {
             Please open a file for the following site at your convenience.
           </Text>
           <Row>
-            <Column style={columnHeader}>Site Details</Column>
+            <Column style={columnHeader}>SITE DETAILS</Column>
           </Row>
           <Row>
             <Column style={rowHeader}>Requested By</Column>
@@ -93,7 +93,7 @@ const TemplateNewSite = (props: TemplateNewSiteProps) => {
             <Column style={rowData}>{props.details}</Column>
           </Row>
           <Row>
-            <Column style={columnHeader}>Client Details</Column>
+            <Column style={columnHeader}>CLIENT DETAILS</Column>
           </Row>
           <Row>
             <Column style={rowHeader}>Name</Column>
