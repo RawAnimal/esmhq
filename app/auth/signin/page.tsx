@@ -2,11 +2,13 @@
 
 import { signIn as nextAuthSignIn } from 'next-auth/react';
 import { Box, Button, TextField, Alert } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Image from 'next/image';
-import LogoESM from '@/public/LogoESM.svg';
+import LogoESM from '@/app/public/LogoESM.svg';
+import LogoSheild from '@/app/public/LogoSheild.svg';
 
 type Inputs = {
   email: string;
@@ -39,58 +41,66 @@ const SignIn = () => {
         justifyContent={'center'}
         alignItems={'center'}
       >
-        <Box
+        <Grid
+          container
           display="flex"
           flexDirection={'column'}
-          sx={{ xs: { width: '100%' }, md: { width: '25%' } }}
+          sx={{ xs: { width: '100%' }, md: { width: '50%' } }}
+          alignItems={'center'}
         >
           <Image
-            src={LogoESM}
+            src={LogoSheild}
             alt="ESM Logo"
             priority
             sizes="100vw"
             style={{
-              width: '100%',
+              width: '50%',
               height: 'auto',
             }}
           />
-          <TextField
-            id="email"
-            label="Email"
-            variant="outlined"
-            autoComplete="email"
-            required
-            defaultValue=""
-            sx={{ mt: 2, ml: 1, mb: 1, mr: 1 }}
-            {...register('email')}
-          />
-          <TextField
-            id="password"
-            type="password"
-            label="Password"
-            variant="outlined"
-            autoComplete="off"
-            aria-autocomplete="none"
-            required
-            defaultValue=""
-            {...register('password')}
-            sx={{ mt: 1, ml: 1, mb: 1, mr: 1 }}
-          />
+          <Grid width={'100%'}>
+            <TextField
+              id="email"
+              label="Email"
+              variant="outlined"
+              autoComplete="email"
+              required
+              defaultValue=""
+              sx={{ mt: 3, mb: 1, width: '100%' }}
+              {...register('email')}
+            />
+          </Grid>
+          <Grid width={'100%'}>
+            <TextField
+              id="password"
+              type="password"
+              label="Password"
+              variant="outlined"
+              autoComplete="off"
+              aria-autocomplete="none"
+              required
+              defaultValue=""
+              {...register('password')}
+              sx={{ mt: 1, mb: 1, width: '100%' }}
+            />
+          </Grid>
           <Button
             id="loginSubmit"
             type="submit"
             variant="contained"
             color="primary"
-            sx={{ mt: 1, ml: 1, mr: 1 }}
+            sx={{ mt: 1, width: '100%' }}
           >
             Sign In
           </Button>
           {error && (
-            <Alert severity="error" sx={{ mt: 1, ml: 1, mr: 1 }}>
-              Incorrect credentials.
-            </Alert>
+            <Grid>
+              <Alert severity="error" sx={{ mt: 1, ml: 1, mr: 1 }}>
+                Incorrect credentials.
+              </Alert>
+            </Grid>
           )}
-        </Box>
+        </Grid>
       </Box>
     </form>
   );
