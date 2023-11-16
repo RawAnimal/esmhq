@@ -105,6 +105,7 @@ const NewSitePage = () => {
                 prSSFNs: data.prSSFNs,
                 assignedToFirstName: session?.user.firstName,
                 assignedToLastName: session?.user.lastName,
+                assignedToEmail: session?.user.email,
               }),
             });
             router.push('/sites');

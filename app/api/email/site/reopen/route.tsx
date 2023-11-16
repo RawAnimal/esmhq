@@ -14,11 +14,12 @@ export async function POST(request: Request) {
     postal,
     assignedToFirstName,
     assignedToLastName,
+    assignedToEmail,
   } = await request.json();
   try {
     const data = await resend.emails.send({
       from: 'webadmin@email.esmhq.com',
-      to: ['skjsweeney@gmail.com'],
+      to: ['skjsweeney@gmail.com', `${assignedToEmail}`],
       subject: 'ESM :: Reopen Site',
       react: TemplateReopenSite({
         startDate,

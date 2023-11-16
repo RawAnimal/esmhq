@@ -112,6 +112,7 @@ const SiteForm = ({ site, reopen }: { site?: Site; reopen?: boolean }) => {
                   postal: data.postal,
                   assignedToFirstName: session?.user.firstName,
                   assignedToLastName: session?.user.lastName,
+                  assignedToEmail: session?.user.email,
                 }),
               });
             } else {

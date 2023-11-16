@@ -17,7 +17,6 @@ const ReopenSitePage = async ({ params }: Props) => {
 
   return (
     <>
-      <NavBar />
       <Container sx={{ pt: 2, flexGrow: 1 }}>
         <SiteForm site={site} reopen={true} />
       </Container>

@@ -50,7 +50,8 @@ const EndSiteButton = ({ site }: { site: Site }) => {
       await fetch('/api/email/site/close', {
         method: 'POST',
         body: JSON.stringify({
-          endDate: data.endDate.toString(),
+          //TODO Figure out why date is passing in GMT
+          endDate: finalData.endDate.toString(),
           fileNumber: site.fileNumber,
           streetNumberName: site.streetNumberName,
           cityTown: site.cityTown,
@@ -58,6 +59,7 @@ const EndSiteButton = ({ site }: { site: Site }) => {
           postal: site.postal,
           assignedToFirstName: session?.user.firstName,
           assignedToLastName: session?.user.lastName,
+          assignedToEmail: session?.user.email,
         }),
       });
       router.push('/sites/' + site.id);
@@ -115,7 +117,7 @@ const EndSiteButton = ({ site }: { site: Site }) => {
                 label={'End Date'}
                 control={control}
                 ampm={false}
-                views={['year', 'day', 'hours', 'minutes']}
+                format="YYYY-MM-DD HH:mm"
                 sx={{ mt: 2 }}
               />
             </Box>
