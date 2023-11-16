@@ -50,7 +50,7 @@ const SignIn = () => {
         >
           <Image
             src={LogoSheild}
-            alt="ESM Logo"
+            alt="ESM Sheild"
             priority
             sizes="100vw"
             style={{

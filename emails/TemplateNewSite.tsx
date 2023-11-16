@@ -51,7 +51,7 @@ const TemplateNewSite = (props: TemplateNewSiteProps) => {
               src={`https://xpera.ca/media/c5c1ae1f-4cfb-4871-93ca-4ddb18cf6446/MxgzLQ/Logos/ESM-Logo.jpg?mw=200&sh=f73a5`}
               width="120"
               height="55"
-              alt="ESM"
+              alt="ESM Logo"
             />
           </Section>
           <Heading style={h1}>SITE INTAKE</Heading>
@@ -146,6 +146,14 @@ const TemplateNewSite = (props: TemplateNewSiteProps) => {
             <Column style={rowHeader}>SSFNs</Column>
             <Column style={rowData}>{props.prSSFNs}</Column>
           </Row>
+          <Section style={logoContainer}>
+            <Img
+              src={`https://xpera.ca/media/c5c1ae1f-4cfb-4871-93ca-4ddb18cf6446/MxgzLQ/Logos/ESM-Logo.jpg?mw=200&sh=f73a5`}
+              width="120"
+              height="55"
+              alt="ESM Logo"
+            />
+          </Section>
         </Container>
       </Body>
     </Html>

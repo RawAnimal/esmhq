@@ -1,6 +1,7 @@
 'use client';
 
 import axios from 'axios';
+import { Site } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -17,13 +18,15 @@ import {
 import { DateTimePickerElement } from 'react-hook-form-mui';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
 import dayjs, { Dayjs } from 'dayjs';
+import { useSession } from 'next-auth/react';
 
 type Inputs = {
   endDate: Dayjs;
 };
 
-const EndSiteButton = ({ siteId }: { siteId: number }) => {
+const EndSiteButton = ({ site }: { site: Site }) => {
   const router = useRouter();
+  const { data: session } = useSession();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [openError, setOpenError] = useState(false);
   const [isEnding, setEnding] = useState(false);
@@ -43,8 +46,21 @@ const EndSiteButton = ({ siteId }: { siteId: number }) => {
     };
     try {
       setEnding(true);
-      await axios.patch('/api/sites/' + siteId, finalData);
-      router.push('/sites/' + siteId);
+      await axios.patch('/api/sites/' + site.id, finalData);
+      await fetch('/api/email/site/close', {
+        method: 'POST',
+        body: JSON.stringify({
+          endDate: data.endDate.toString(),
+          fileNumber: site.fileNumber,
+          streetNumberName: site.streetNumberName,
+          cityTown: site.cityTown,
+          province: site.province,
+          postal: site.postal,
+          assignedToFirstName: session?.user.firstName,
+          assignedToLastName: session?.user.lastName,
+        }),
+      });
+      router.push('/sites/' + site.id);
       router.refresh();
       setEnding(false);
     } catch (error) {

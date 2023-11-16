@@ -93,7 +93,7 @@ const SiteDetailsPage = async ({ params }: Props) => {
       (site.status === true && site.assignedToUserId === session?.user.id) ||
       (site.status === true && session?.user.role === 'WEBADMIN')
     )
-      return <EndSiteButton siteId={site.id} />;
+      return <EndSiteButton site={site} />;
   };
 
   const showAssignButton = () => {

@@ -101,6 +101,19 @@ const SiteForm = ({ site, reopen }: { site?: Site; reopen?: boolean }) => {
             setSubmitting(true);
             if (reopen) {
               await axios.post('/api/sites', data);
+              await fetch('/api/email/site/reopen', {
+                method: 'POST',
+                body: JSON.stringify({
+                  startDate: data.startDate.toString(),
+                  fileNumber: data.fileNumber,
+                  streetNumberName: data.streetNumberName,
+                  cityTown: data.cityTown,
+                  province: data.province,
+                  postal: data.postal,
+                  assignedToFirstName: session?.user.firstName,
+                  assignedToLastName: session?.user.lastName,
+                }),
+              });
             } else {
               await axios.patch('/api/sites/' + site?.id, data);
             }
