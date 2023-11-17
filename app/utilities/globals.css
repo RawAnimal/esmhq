@@ -41,3 +41,7 @@
   content: '✆';
   margin-right: 6px;
 }
+
+.StatsCard .MuiCardContent-root {
+  padding: 0px !important;
+}
