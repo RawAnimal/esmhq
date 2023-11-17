@@ -1,11 +1,12 @@
 import { Container, Card, CardHeader, CardContent, Grid } from '@mui/material';
-// import Grid from '@mui/material/Unstable_Grid2';
 import LatestSites from './_components/LatestSites';
 import StatsCardSitesActive from './_components/StatsCardSitesActive';
 import StatsCardSitesNew from './_components/StatsCardSitesNew';
 import StatsCardEstHours from './_components/StatsCardEstHours';
 import StatsCardSitesClosed from './_components/StatsCardSitesClosed';
 import StatsCardAvgHours from './_components/StatsCardAvgHours';
+
+export const dynamic = 'force-dynamic';
 
 export default function Home() {
   return (
