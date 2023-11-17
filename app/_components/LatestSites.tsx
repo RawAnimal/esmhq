@@ -15,8 +15,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import SiteStatusBadge from '../sites/_components/SiteStatusBadge';
 import Link from 'next/link';
 import { Site } from '@prisma/client';
-
-export const dynamic = 'force-dynamic';
+import { revalidateTag } from 'next/cache';
 
 const LatestSites = async () => {
   const sites = await prisma.site.findMany({
@@ -26,6 +25,7 @@ const LatestSites = async () => {
       assignedToUser: true,
     },
   });
+  revalidateTag('sites');
   const addHyphen = (site: Site) => {
     if (site.clPrefix || site.locID) {
       return ' - ';
@@ -147,47 +147,6 @@ const LatestSites = async () => {
         </Table>
       </CardContent>
     </Card>
-    //     <Card>
-    //       <Heading size="3" mb="3">
-    //         Recent Sites
-    //       </Heading>
-    //       <Table.Root>
-    //         <Table.Body>
-    //           {sites.map((site) => (
-    //             <Table.Row key={site.id}>
-    //               <Table.Cell>
-    //                 <Flex justify="between">
-    //                   <Flex direction="column" align="start" gap="1">
-    //                     <Link href={`/sites/${site.id}`} target="">
-    //                       {site.clPrefix && <span>{site.clPrefix} </span>}
-    //                       {site.locID && <span>{site.locID} </span>}
-    //                       {addHyphen(site)}
-    //                       {site.streetNumberName}, {site.cityTown}, {site.province}
-    //                     </Link>
-    //                     <Flex gap="1">
-    //                       <SiteStatusBadge status={site.status} />
-    //                       <div>
-    //                         {site.clName} -{' '}
-    //                         <Text className="font-bold text-gray-600">
-    //                           {site.clCompany}
-    //                         </Text>
-    //                       </div>
-    //                     </Flex>
-    //                   </Flex>
-
-    //                   {site.assignedToUser && (
-    //                     <UserAvatar
-    //                       whoIsIt={site.assignedToUserId!}
-    //                       avatarSize="1"
-    //                     />
-    //                   )}
-    //                 </Flex>
-    //               </Table.Cell>
-    //             </Table.Row>
-    //           ))}
-    //         </Table.Body>
-    //       </Table.Root>
-    //     </Card>
   );
 };
 
