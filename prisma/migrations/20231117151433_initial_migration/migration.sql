@@ -34,7 +34,7 @@ CREATE TABLE `Site` (
     `longitude` VARCHAR(12) NULL,
     `tempManager` VARCHAR(15) NULL,
     `assignedToUserId` VARCHAR(255) NULL,
-    `status` ENUM('ACTIVE', 'INACTIVE') NOT NULL DEFAULT 'ACTIVE',
+    `status` BOOLEAN NOT NULL DEFAULT true,
 
     INDEX `Site_assignedToUserId_idx`(`assignedToUserId`),
     PRIMARY KEY (`id`)
