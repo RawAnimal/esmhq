@@ -3,7 +3,7 @@ import { userSchema } from '@/app/utilities/validationSchemas';
 import prisma from '@/prisma/client';
 import bcrypt from 'bcrypt';
 
-export async function GET(request: NextRequest) {
+export async function GET(request: Request) {
   const users = await prisma.user.findMany({
     select: {
       firstName: true,

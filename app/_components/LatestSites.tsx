@@ -15,7 +15,6 @@ import Grid from '@mui/material/Unstable_Grid2';
 import SiteStatusBadge from '../sites/_components/SiteStatusBadge';
 import Link from 'next/link';
 import { Site } from '@prisma/client';
-import { revalidateTag } from 'next/cache';
 
 const LatestSites = async () => {
   const sites = await prisma.site.findMany({
@@ -25,7 +24,7 @@ const LatestSites = async () => {
       assignedToUser: true,
     },
   });
-  revalidateTag('sites');
+
   const addHyphen = (site: Site) => {
     if (site.clPrefix || site.locID) {
       return ' - ';
