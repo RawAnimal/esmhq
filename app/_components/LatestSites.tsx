@@ -16,6 +16,8 @@ import SiteStatusBadge from '../sites/_components/SiteStatusBadge';
 import Link from 'next/link';
 import { Site } from '@prisma/client';
 
+export const dynamic = 'force-dynamic';
+
 const LatestSites = async () => {
   const sites = await prisma.site.findMany({
     orderBy: { startDate: 'desc' },
