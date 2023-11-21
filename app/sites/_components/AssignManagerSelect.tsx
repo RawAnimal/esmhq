@@ -11,12 +11,12 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-export const managers = [
-  { id: '1', label: 'Sean Sweeney' },
-  { id: '2', label: 'Alex Ray' },
-  { id: '3', label: 'Hamza Desai' },
-  { id: '4', label: 'Anchit Pahwa' },
-];
+// export const managers = [
+//   { id: '1', label: 'Sean Sweeney' },
+//   { id: '2', label: 'Alex Ray' },
+//   { id: '3', label: 'Hamza Desai' },
+//   { id: '4', label: 'Anchit Pahwa' },
+// ];
 
 const AssignManagerSelect = ({ site }: { site: Site }) => {
   const router = useRouter();
