@@ -5,6 +5,7 @@ import StatsCardSitesNew from './_components/StatsCardSitesNew';
 import StatsCardEstHours from './_components/StatsCardEstHours';
 import StatsCardSitesClosed from './_components/StatsCardSitesClosed';
 import StatsCardAvgHours from './_components/StatsCardAvgHours';
+import StatsChartWeeklyHours from './_components/StatsChartWeeklyHours';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,26 +19,47 @@ export default function Home() {
             <CardContent>
               <Grid container spacing={2} justifyContent="space-between">
                 <Grid item>
-                  <StatsCardSitesActive />
+                  <div>
+                    <StatsCardSitesActive />
+                  </div>
                 </Grid>
                 <Grid item>
-                  <StatsCardEstHours />
+                  <div>
+                    <StatsCardEstHours />
+                  </div>
                 </Grid>
                 <Grid item>
-                  <StatsCardAvgHours />
+                  <div>
+                    <StatsCardAvgHours />
+                  </div>
                 </Grid>
                 <Grid item>
-                  <StatsCardSitesNew />
+                  <div>
+                    <StatsCardSitesNew />
+                  </div>
                 </Grid>
                 <Grid item>
-                  <StatsCardSitesClosed />
+                  <div>
+                    <StatsCardSitesClosed />
+                  </div>
                 </Grid>
               </Grid>
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={12} md={8}>
-          <LatestSites />
+          <Grid container spacing={2} direction="column">
+            <Grid item>
+              <div>
+                <LatestSites />
+              </div>
+            </Grid>
+            <Grid item>
+              <div>
+                <StatsChartWeeklyHours />
+              </div>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </Container>
