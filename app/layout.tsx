@@ -8,6 +8,10 @@ import './utilities/globals.css';
 import NavBar from './_components/NavBar';
 import MUIWrapper from './utilities/MUIWrapper';
 
+(BigInt.prototype as any).toJSON = function () {
+  return this.toString();
+};
+
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
