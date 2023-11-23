@@ -34,9 +34,9 @@ interface Year {
 
 const StatsChartWeeklyHours = () => {
   const [stats, setStats] = useState([]);
-  const currentYear = dayjs().year().toString();
 
   useEffect(() => {
+    const currentYear = dayjs().year().toString();
     const fetchStats = async () => {
       const response = await fetch(`/api/sites/stats/` + currentYear);
       const newData = await response.json();
