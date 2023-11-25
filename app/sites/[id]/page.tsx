@@ -4,9 +4,7 @@ import getTel from '@/app/utilities/GetTel';
 import prettify from '@/app/utilities/Prettify';
 import prisma from '@/prisma/client';
 import EditIcon from '@mui/icons-material/Edit';
-import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import LinkOffIcon from '@mui/icons-material/LinkOff';
 import {
   Box,
   Button,
@@ -26,6 +24,11 @@ import AssignManagerSelect from '../_components/AssignManagerSelect';
 import DeleteSiteButton from '../_components/DeleteSiteButton';
 import EndSiteButton from '../_components/EndSiteButton';
 import ReopenSiteButton from '../_components/ReopenSiteButton';
+import SiteGoogleMap from '../_components/SiteGoogleMap';
+import OpenGoogleMapButton from '../_components/OpenGoogleMapButton';
+import OpenScheduleButton from '../_components/OpenScheduleButton';
+import EmailClientButton from '../_components/EmailClientButton';
+import CallClientButton from '../_components/CallClientButton';
 
 interface Props {
   params: {
@@ -74,6 +77,47 @@ const SiteDetailsPage = async ({ params }: Props) => {
           </Link>
         </Box>
       );
+  };
+
+  const showOpenMapButton = () => {
+    // Show if site if current site is inactive for Webadmin and Webusers
+    if (site.latitude && site.longitude)
+      return <OpenGoogleMapButton lat={site.latitude} lng={site.longitude} />;
+  };
+
+  const showOpenScheduleButton = () => {
+    if (site.schedulerURL)
+      return <OpenScheduleButton scheduleURL={site.schedulerURL} />;
+  };
+
+  const showEmailClientButton = () => {
+    if (site.clEmail) return <EmailClientButton email={site.clEmail} />;
+  };
+
+  const showGoogleMap = () => {
+    if (site.latitude && site.longitude)
+      return (
+        <Grid xs={12}>
+          <Card
+            variant="outlined"
+            sx={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              alignContent: 'center',
+              flexDirection: 'column',
+              borderRadius: 1,
+              marginBottom: 2,
+              minHeight: 70,
+            }}
+          >
+            <SiteGoogleMap lat={site.latitude} lng={site.longitude} />
+          </Card>
+        </Grid>
+      );
+  };
+
+  const showCallClientButton = () => {
+    if (site.clPhone) return <CallClientButton phoneNumber={site.clPhone} />;
   };
 
   const showReopenSiteButton = () => {
@@ -145,7 +189,7 @@ const SiteDetailsPage = async ({ params }: Props) => {
           </Typography>
         </Card>
       </Grid>
-
+      {showGoogleMap()}
       <Grid container>
         <Grid
           xs={12}
@@ -188,10 +232,10 @@ const SiteDetailsPage = async ({ params }: Props) => {
                   <Typography
                     display={'inline-block'}
                     variant="body1"
-                    color={`${site.fileNumber ? '' : 'red'}`}
+                    color={`${site.fileNumber ? '' : '#bb271a'}`}
                     fontWeight={`${site.fileNumber ? '' : 'bold'}`}
                   >
-                    {site.fileNumber ? site.fileNumber : 'Incomplete'}
+                    {site.fileNumber ? site.fileNumber : 'INCOMPLETE'}
                   </Typography>
                 </Box>
                 <Box flex={1} margin={1}>
@@ -362,13 +406,19 @@ const SiteDetailsPage = async ({ params }: Props) => {
                   </Typography>
                   <Box display={'inline-block'}>
                     {site.schedulerURL ? (
-                      <Link target="_blank" href={site.schedulerURL} passHref>
-                        <MuiLink>
-                          <InsertLinkIcon />
-                        </MuiLink>
-                      </Link>
+                      <MuiLink
+                        target="_blank"
+                        underline="none"
+                        href={site.schedulerURL}
+                      >
+                        <Typography fontWeight={600}>
+                          Go To Schedule
+                        </Typography>
+                      </MuiLink>
                     ) : (
-                      <LinkOffIcon />
+                      <Typography color="#bb271a" fontWeight={600}>
+                        INCOMPLETE
+                      </Typography>
                     )}
                   </Box>
                 </Box>
@@ -442,15 +492,13 @@ const SiteDetailsPage = async ({ params }: Props) => {
                   >
                     Phone:
                   </Typography>
-                  <Link href={getTel(site.clPhone)} passHref>
-                    <MuiLink
-                      sx={{ fontWeight: 600, textDecoration: 'none' }}
-                      underline="none"
-                      component="button"
-                    >
-                      {String.fromCharCode(9742) + ' ' + site.clPhone}
-                    </MuiLink>
-                  </Link>
+                  <MuiLink
+                    href={getTel(site.clPhone)}
+                    sx={{ fontWeight: 600, textDecoration: 'none' }}
+                    underline="none"
+                  >
+                    {String.fromCharCode(9742) + ' ' + site.clPhone}
+                  </MuiLink>
                 </Box>
               </Grid>
               <Grid
@@ -468,15 +516,13 @@ const SiteDetailsPage = async ({ params }: Props) => {
                     Email:
                   </Typography>
                   <Typography display={'inline-block'} variant="body1">
-                    <Link href={`mailto:${site.clEmail}`} passHref>
-                      <MuiLink
-                        sx={{ fontWeight: 600, textDecoration: 'none' }}
-                        underline="none"
-                        component="button"
-                      >
-                        {site.clEmail}
-                      </MuiLink>
-                    </Link>
+                    <MuiLink
+                      href={`mailto:${site.clEmail}`}
+                      sx={{ fontWeight: 600, textDecoration: 'none' }}
+                      underline="none"
+                    >
+                      {site.clEmail}
+                    </MuiLink>
                   </Typography>
                 </Box>
                 <Box flex={1} margin={1}>
@@ -579,15 +625,13 @@ const SiteDetailsPage = async ({ params }: Props) => {
                     Phone:
                   </Typography>
                   {site.prPhone ? (
-                    <Link href={getTel(site.prPhone)} passHref>
-                      <MuiLink
-                        sx={{ fontWeight: 600, textDecoration: 'none' }}
-                        underline="none"
-                        component="button"
-                      >
-                        {String.fromCharCode(9742) + ' ' + site.prPhone}
-                      </MuiLink>
-                    </Link>
+                    <MuiLink
+                      href={getTel(site.prPhone)}
+                      sx={{ fontWeight: 600, textDecoration: 'none' }}
+                      underline="none"
+                    >
+                      {String.fromCharCode(9742) + ' ' + site.prPhone}
+                    </MuiLink>
                   ) : (
                     ''
                   )}
@@ -608,15 +652,13 @@ const SiteDetailsPage = async ({ params }: Props) => {
                     Email:
                   </Typography>
                   {site.prEmail ? (
-                    <Link href={`mailto:${site.prEmail}`} passHref>
-                      <MuiLink
-                        sx={{ fontWeight: 600, textDecoration: 'none' }}
-                        underline="none"
-                        component="button"
-                      >
-                        {site.prEmail}
-                      </MuiLink>
-                    </Link>
+                    <MuiLink
+                      href={`mailto:${site.prEmail}`}
+                      sx={{ fontWeight: 600, textDecoration: 'none' }}
+                      underline="none"
+                    >
+                      {site.prEmail}
+                    </MuiLink>
                   ) : (
                     ''
                   )}
@@ -702,6 +744,10 @@ const SiteDetailsPage = async ({ params }: Props) => {
 
           {showAssignButton()}
           {showEditButton()}
+          {showOpenMapButton()}
+          {showOpenScheduleButton()}
+          {showCallClientButton()}
+          {showEmailClientButton()}
           {showReopenSiteButton()}
           {showEndSiteButton()}
           {session?.user.role === 'WEBADMIN' && (
