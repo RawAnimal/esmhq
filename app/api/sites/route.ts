@@ -3,6 +3,7 @@ import prisma from '@/prisma/client';
 import { siteSchema } from '@/app/utilities/validationSchemas';
 //import { getServerSession } from "next-auth";
 //import { authOptions } from "../auth/[...nextauth]/route";
+import { GetCoordinates } from '@/app/utilities/Geocode';
 
 export async function GET(request: NextRequest) {
   const sites = await prisma.site.findMany({
@@ -21,6 +22,9 @@ export async function POST(request: NextRequest) {
   const validation = siteSchema.safeParse(body);
   if (!validation.success)
     return NextResponse.json(validation.error.format(), { status: 400 });
+  const { lat, lng } = await GetCoordinates({
+    address: `${body.streetNumberName}, ${body.cityTown}, ${body.province}, ${body.postal}`,
+  });
 
   const newSite = await prisma.site.create({
     data: {
@@ -50,6 +54,8 @@ export async function POST(request: NextRequest) {
       prAddress: body.prAddress,
       prSSFNs: body.prSSFNs,
       assignedToUserId: body.assignedToUserId,
+      latitude: lat.toString(),
+      longitude: lng.toString(),
     },
   });
   return NextResponse.json(newSite, { status: 201 });
