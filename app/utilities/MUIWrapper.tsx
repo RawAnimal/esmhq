@@ -1,6 +1,8 @@
 'use client';
 import { createTheme, PaletteMode, ThemeProvider } from '@mui/material';
 import { createContext, useMemo, useState } from 'react';
+import NextLink from 'next/link';
+import { forwardRef } from 'react';
 
 /**
   TypeScript and React inconvenience:
@@ -12,6 +14,11 @@ import { createContext, useMemo, useState } from 'react';
 */
 export const MUIWrapperContext = createContext({
   toggleColorMode: () => {},
+});
+
+const LinkBehaviour = forwardRef(function LinkBehaviour(props, ref) {
+  //@ts-ignore
+  return <NextLink ref={ref} {...props} />;
 });
 
 export default function MUIWrapper({
@@ -43,6 +50,18 @@ export default function MUIWrapper({
             main: '#CC0000',
           },
           mode,
+        },
+        components: {
+          MuiLink: {
+            defaultProps: {
+              component: LinkBehaviour,
+            },
+          },
+          MuiButtonBase: {
+            defaultProps: {
+              LinkComponent: LinkBehaviour,
+            },
+          },
         },
       }),
     [mode]
