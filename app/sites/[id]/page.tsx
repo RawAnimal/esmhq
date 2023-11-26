@@ -110,7 +110,10 @@ const SiteDetailsPage = async ({ params }: Props) => {
               minHeight: 70,
             }}
           >
-            <SiteGoogleMap lat={site.latitude} lng={site.longitude} />
+            <SiteGoogleMap
+              markerlat={site.latitude}
+              markerlng={site.longitude}
+            />
           </Card>
         </Grid>
       );
