@@ -71,16 +71,16 @@ const StatsChartWeeklyHours = () => {
   return (
     <>
       <Card variant="outlined">
-        <CardHeader title="Sites Start/End Per Week" />
+        <CardHeader title="Sites Chart" />
         <CardContent>
           <ResponsiveContainer width="99%" aspect={2}>
             <ComposedChart
               data={stats}
               margin={{
-                top: 60,
+                top: 0,
                 right: 20,
                 left: 0,
-                bottom: 20,
+                bottom: 0,
               }}
             >
               <XAxis dataKey="f1" />
@@ -89,8 +89,16 @@ const StatsChartWeeklyHours = () => {
                 labelFormatter={(f1) => {
                   return `Week: ${f1}`;
                 }}
+                labelStyle={{ color: 'black', fontSize: 18, paddingBottom: 4 }}
+                itemStyle={{ color: 'black', fontSize: 14 }}
               />
               <Legend />
+              <Bar
+                name="Active"
+                dataKey="f4"
+                fill="#D3D3D3"
+                activeBar={<Rectangle stroke="#d97a39" strokeWidth={1.5} />}
+              />
               <Line
                 name="Started"
                 type="monotone"
@@ -106,36 +114,6 @@ const StatsChartWeeklyHours = () => {
                 strokeWidth={1.5}
               />
             </ComposedChart>
-          </ResponsiveContainer>
-        </CardContent>
-        <CardHeader title="Total Active Per Week" />
-        <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart
-              data={stats}
-              margin={{
-                top: 20,
-                right: 0,
-                left: 0,
-                bottom: 12,
-              }}
-            >
-              <XAxis dataKey="f1">
-                <Label value="Week Number" offset={0} position="bottom" />
-              </XAxis>
-              <YAxis />
-              <Tooltip
-                labelFormatter={(f1) => {
-                  return `Week: ${f1}`;
-                }}
-              />
-              <Bar
-                name="Active"
-                dataKey="f4"
-                fill="#d97a39"
-                activeBar={<Rectangle stroke="#656669" />}
-              />
-            </BarChart>
           </ResponsiveContainer>
         </CardContent>
         <CardActions>
