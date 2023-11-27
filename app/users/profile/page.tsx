@@ -20,6 +20,7 @@ const ProfilePage = () => {
     <Container sx={{ pt: 2, flexGrow: 1, mb: 2 }}>
       <Grid container>
         <Grid
+          item
           xs={12}
           sm={12}
           md={9}
@@ -45,6 +46,7 @@ const ProfilePage = () => {
             <CardContent>
               <Grid container>
                 <Grid
+                  item
                   container
                   sx={{
                     flexDirection: { xs: 'column', sm: 'row' },
@@ -109,6 +111,7 @@ const ProfilePage = () => {
           </Card>
         </Grid>
         <Grid
+          item
           xs={12}
           sm={12}
           md={3}
