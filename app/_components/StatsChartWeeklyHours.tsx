@@ -102,7 +102,7 @@ const StatsChartWeeklyHours = () => {
                 name="Ended"
                 type="monotone"
                 dataKey="f3"
-                stroke="#000000"
+                stroke="#bb271a"
                 strokeWidth={1.5}
               />
             </ComposedChart>
