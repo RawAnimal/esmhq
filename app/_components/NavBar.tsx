@@ -139,24 +139,47 @@ function NavBar() {
                 }}
               >
                 {/* mobile menu */}
-                {pages.map((page) => (
+                <MuiLink
+                  href="/"
+                  sx={{ fontWeight: 600, textDecoration: 'none' }}
+                  underline="none"
+                >
                   <MenuItem
-                    key={page.title}
                     onClick={handleCloseNavMenu}
-                    className={getMobileActiveClass(page.href)}
+                    className={getMobileActiveClass('/')}
                     sx={{ minWidth: 150 }}
                   >
-                    <Link href={page.href} passHref>
-                      <MuiLink
-                        sx={{ fontWeight: 600, textDecoration: 'none' }}
-                        underline="none"
-                        component="button"
-                      >
-                        {page.title}
-                      </MuiLink>
-                    </Link>
+                    <Typography fontWeight="600">Dash</Typography>
                   </MenuItem>
-                ))}
+                </MuiLink>
+                <MuiLink
+                  href="/sites"
+                  sx={{ fontWeight: 600, textDecoration: 'none' }}
+                  underline="none"
+                >
+                  <MenuItem
+                    onClick={handleCloseNavMenu}
+                    className={getMobileActiveClass('/sites')}
+                    sx={{ minWidth: 150 }}
+                  >
+                    <Typography fontWeight="600">Sites</Typography>
+                  </MenuItem>
+                </MuiLink>
+                {session?.user.role === 'WEBADMIN' && (
+                  <MuiLink
+                    href="/users"
+                    sx={{ fontWeight: 600, textDecoration: 'none' }}
+                    underline="none"
+                  >
+                    <MenuItem
+                      onClick={handleCloseNavMenu}
+                      className={getMobileActiveClass('/users')}
+                      sx={{ minWidth: 150 }}
+                    >
+                      <Typography fontWeight="600">Users</Typography>
+                    </MenuItem>
+                  </MuiLink>
+                )}
               </Menu>
             </Box>
             <Box
@@ -170,8 +193,6 @@ function NavBar() {
               <Link href={'/'}>
                 <IconESMSheild
                   fSize="large"
-                  //shieldFill="#db792d"
-                  //crossFill="#646569"
                   shieldFill="#FFFFFF"
                   crossFill="#FFFFFF"
                   strokeColor="#FFFFFF"
@@ -186,21 +207,30 @@ function NavBar() {
               <Button
                 onClick={handleCloseNavMenu}
                 className={getActiveClass('/')}
+                href="/"
               >
-                <Link href="/">Dash</Link>
+                <Typography color="#FFFFFF" fontWeight="600">
+                  Dash
+                </Typography>
               </Button>
               <Button
                 onClick={handleCloseNavMenu}
                 className={getActiveClass('/sites')}
+                href="/sites"
               >
-                <Link href="/sites">Sites</Link>
+                <Typography color="#FFFFFF" fontWeight="600">
+                  Sites
+                </Typography>
               </Button>
               {session?.user.role === 'WEBADMIN' && (
                 <Button
                   onClick={handleCloseNavMenu}
                   className={getActiveClass('/users')}
+                  href="/users"
                 >
-                  <Link href="/users">Users</Link>
+                  <Typography color="#FFFFFF" fontWeight="600">
+                    Users
+                  </Typography>
                 </Button>
               )}
             </Box>
@@ -248,61 +278,45 @@ function NavBar() {
                 <Divider />
 
                 {status === 'authenticated' && (
-                  <MenuItem
-                    onClick={handleCloseUserMenu}
-                    className={getMobileActiveClass('/users/profile')}
+                  <MuiLink
+                    sx={{ fontWeight: 600, textDecoration: 'none' }}
+                    underline="none"
+                    href="/users/profile"
                   >
-                    <Link href="/users/profile" passHref>
-                      <MuiLink
-                        sx={{ fontWeight: 600, textDecoration: 'none' }}
-                        underline="none"
-                        component="button"
-                      >
-                        Profile
-                      </MuiLink>
-                    </Link>
-                  </MenuItem>
+                    <MenuItem
+                      onClick={handleCloseUserMenu}
+                      className={getMobileActiveClass('/users/profile')}
+                    >
+                      <Typography fontWeight={600}>Profile</Typography>
+                    </MenuItem>
+                  </MuiLink>
                 )}
                 <MenuItem
                   onClick={handleCloseUserMenu}
                   sx={{
                     display: { xs: 'flex', md: 'none' },
-                    //justifyContent: 'center',
                     pl: 0,
                   }}
                 >
                   <ThemeToggle />
                 </MenuItem>
                 {status === 'authenticated' && (
-                  <MenuItem
-                    onClick={handleCloseUserMenu}
-                    className="mobileLink"
+                  <MuiLink
+                    sx={{ fontWeight: 600, textDecoration: 'none' }}
+                    underline="none"
+                    href="#"
+                    //component="button"
+                    onClick={() => {
+                      signOut();
+                    }}
                   >
-                    <Link href="#" passHref>
-                      <MuiLink
-                        sx={{ fontWeight: 600, textDecoration: 'none' }}
-                        underline="none"
-                        component="button"
-                        onClick={() => {
-                          signOut();
-                        }}
-                      >
-                        Sign Out
-                      </MuiLink>
-                    </Link>
-                  </MenuItem>
-                )}
-                {status === 'unauthenticated' && (
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Link
-                      href="#"
-                      onClick={() => {
-                        signIn();
-                      }}
+                    <MenuItem
+                      onClick={handleCloseUserMenu}
+                      className="mobileLink"
                     >
-                      <Typography textAlign="center">Sign In</Typography>
-                    </Link>
-                  </MenuItem>
+                      <Typography fontWeight={600}>Sign Out</Typography>
+                    </MenuItem>
+                  </MuiLink>
                 )}
               </Menu>
             </Box>
