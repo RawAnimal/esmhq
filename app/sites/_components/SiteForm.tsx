@@ -414,7 +414,7 @@ const SiteForm = ({ site, reopen }: { site?: Site; reopen?: boolean }) => {
               <CardActions>
                 <Grid xs={12} md={6}>
                   <Box m={1} flexGrow={1}>
-                    <BackButton label="Cancel" icon={<CancelIcon />} />
+                    <BackButton />
                   </Box>
                 </Grid>
                 <Grid xs={12} md={6}>
