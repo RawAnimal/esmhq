@@ -100,7 +100,7 @@ const SiteForm = ({ site, reopen }: { site?: Site; reopen?: boolean }) => {
           try {
             setSubmitting(true);
             if (reopen) {
-              await axios.post('/api/sites', data);
+              const siteresp = await axios.post('/api/sites', data);
               await fetch('/api/email/site/reopen', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -115,12 +115,9 @@ const SiteForm = ({ site, reopen }: { site?: Site; reopen?: boolean }) => {
                   assignedToEmail: session?.user.email,
                 }),
               });
+              router.push(`/sites/${siteresp.data.id}/response/reopen`);
             } else {
               await axios.patch('/api/sites/' + site?.id, data);
-            }
-            if (reopen) {
-              router.push('/sites/');
-            } else {
               router.push('/sites/' + site?.id);
             }
             router.refresh();

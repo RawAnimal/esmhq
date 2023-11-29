@@ -62,7 +62,8 @@ const EndSiteButton = ({ site }: { site: Site }) => {
           assignedToEmail: session?.user.email,
         }),
       });
-      router.push('/sites/' + site.id);
+      router.push(`/sites/${site.id}/response/close`);
+      //router.push('/sites/' + site.id);
       router.refresh();
       setEnding(false);
     } catch (error) {

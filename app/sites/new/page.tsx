@@ -78,7 +78,7 @@ const NewSitePage = () => {
             const newData = Object.assign(data, {
               assignedToUserId: session?.user.id,
             });
-            await axios.post('/api/sites', newData);
+            const siteresp = await axios.post('/api/sites', newData);
             await fetch('/api/email/site/new', {
               method: 'POST',
               body: JSON.stringify({
@@ -108,7 +108,7 @@ const NewSitePage = () => {
                 assignedToEmail: session?.user.email,
               }),
             });
-            router.push('/sites');
+            router.push(`/sites/${siteresp.data.id}/response/new`);
             router.refresh();
           } catch (error) {
             setSubmitting(false);
