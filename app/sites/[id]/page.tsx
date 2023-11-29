@@ -15,6 +15,8 @@ import {
   Divider,
   Link as MuiLink,
   Typography,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { getServerSession } from 'next-auth';
@@ -59,22 +61,36 @@ const SiteDetailsPage = async ({ params }: Props) => {
     )
       return (
         <Box
-          sx={{ flex: { xs: '1', md: '0' } }}
+          sx={{
+            marginLeft: { xs: 0, md: 2 },
+            marginRight: { xs: 0, md: 2 },
+          }}
           p={0}
           mb={2}
-          marginLeft={2}
-          marginRight={2}
         >
-          <Link href={`/sites/${site.id}/edit`} passHref>
+          <Box display={{ xs: 'none', md: 'block' }}>
             <Button
               fullWidth
               variant="contained"
               color="primary"
               startIcon={<EditIcon />}
+              href={`/sites/${site.id}/edit`}
             >
               Edit
             </Button>
-          </Link>
+          </Box>
+          <Box display={{ xs: 'block', md: 'none' }}>
+            <Tooltip title="Edit">
+              <IconButton
+                aria-label="edit"
+                size="large"
+                href={`/sites/${site.id}/edit`}
+                color="primary"
+              >
+                <EditIcon fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
+          </Box>
         </Box>
       );
   };
@@ -148,7 +164,7 @@ const SiteDetailsPage = async ({ params }: Props) => {
     if (site.status === true && session?.user.role === 'WEBADMIN')
       return (
         <Box
-          sx={{ flex: { xs: '1', md: '0' } }}
+          sx={{ flexGrow: { xs: '1', md: '0' } }}
           p={0}
           mb={2}
           marginLeft={2}
@@ -734,18 +750,9 @@ const SiteDetailsPage = async ({ params }: Props) => {
           xl={3}
           order={{ xs: 1, sm: 1, md: 2 }}
           flexDirection={{ xs: 'row', md: 'column' }}
+          justifyContent={{ xs: 'center', md: 'flex-start' }}
         >
-          <Box
-            sx={{ flex: { xs: '1', md: '0' } }}
-            p={0}
-            mb={2}
-            marginLeft={2}
-            marginRight={2}
-          >
-            <BackButton label="Back" icon={<KeyboardDoubleArrowLeftIcon />} />
-          </Box>
-
-          {showAssignButton()}
+          <BackButton />
           {showEditButton()}
           {showOpenMapButton()}
           {showOpenScheduleButton()}
@@ -755,15 +762,17 @@ const SiteDetailsPage = async ({ params }: Props) => {
           {showEndSiteButton()}
           {session?.user.role === 'WEBADMIN' && (
             <Box
-              sx={{ flex: { xs: '1', md: '0' } }}
+              sx={{
+                marginLeft: { xs: 0, md: 2 },
+                marginRight: { xs: 0, md: 2 },
+              }}
               p={0}
               mb={2}
-              marginLeft={2}
-              marginRight={2}
             >
               <DeleteSiteButton siteId={site.id} />
             </Box>
           )}
+          {showAssignButton()}
         </Grid>
       </Grid>
     </Container>

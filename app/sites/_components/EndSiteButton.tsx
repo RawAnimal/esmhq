@@ -14,6 +14,8 @@ import {
   DialogTitle,
   Box,
   CircularProgress,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
 import { DateTimePickerElement } from 'react-hook-form-mui';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
@@ -85,24 +87,44 @@ const EndSiteButton = ({ site }: { site: Site }) => {
   return (
     <>
       <Box
-        sx={{ flex: { xs: '1', md: '0' } }}
+        sx={{
+          marginLeft: { xs: 0, md: 2 },
+          marginRight: { xs: 0, md: 2 },
+        }}
         p={0}
         mb={2}
-        marginLeft={2}
-        marginRight={2}
       >
-        <Button
-          fullWidth
-          variant="contained"
-          color="error"
-          onClick={handleClickOpen}
-          disabled={isEnding}
-          startIcon={<EventBusyIcon />}
-          sx={{ whiteSpace: 'nowrap' }}
-        >
-          End Site
-          {dialogOpen && <CircularProgress size={20} sx={{ ml: 1 }} />}
-        </Button>
+        <Box display={{ xs: 'none', md: 'block' }}>
+          <Button
+            fullWidth
+            variant="contained"
+            color="error"
+            onClick={handleClickOpen}
+            disabled={isEnding}
+            startIcon={<EventBusyIcon />}
+            sx={{ whiteSpace: 'nowrap' }}
+          >
+            End Site
+            {dialogOpen && <CircularProgress size={20} sx={{ ml: 1 }} />}
+          </Button>
+        </Box>
+        <Box display={{ xs: 'block', md: 'none' }}>
+          <Tooltip title="End">
+            <IconButton
+              aria-label="end site"
+              color="error"
+              size="large"
+              onClick={handleClickOpen}
+              disabled={isEnding}
+            >
+              {dialogOpen ? (
+                <CircularProgress size={20} sx={{ ml: 1 }} />
+              ) : (
+                <EventBusyIcon fontSize="inherit" />
+              )}
+            </IconButton>
+          </Tooltip>
+        </Box>
       </Box>
 
       <Dialog open={dialogOpen} onClose={handleClose}>

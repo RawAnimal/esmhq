@@ -7,6 +7,9 @@ import {
   DialogContentText,
   DialogTitle,
   CircularProgress,
+  IconButton,
+  Box,
+  Tooltip,
 } from '@mui/material';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
@@ -33,16 +36,36 @@ const DeleteSiteButton = ({ siteId }: { siteId: number }) => {
 
   return (
     <>
-      <Button
-        fullWidth
-        disabled={openDialog}
-        variant="contained"
-        color="error"
-        onClick={handleClickOpenDialog}
-        startIcon={<DeleteIcon />}
-      >
-        Delete {openDialog && <CircularProgress size={20} sx={{ ml: 1 }} />}
-      </Button>
+      <Box display={{ xs: 'none', md: 'block' }}>
+        <Button
+          fullWidth
+          disabled={openDialog}
+          variant="contained"
+          color="error"
+          onClick={handleClickOpenDialog}
+          startIcon={<DeleteIcon />}
+        >
+          Delete {openDialog && <CircularProgress size={20} sx={{ ml: 1 }} />}
+        </Button>
+      </Box>
+      <Box display={{ xs: 'block', md: 'none' }}>
+        <Tooltip title="Delete">
+          <IconButton
+            aria-label="delete site"
+            color="error"
+            size="large"
+            disabled={openDialog}
+            onClick={handleClickOpenDialog}
+          >
+            {openDialog ? (
+              <CircularProgress size={20} sx={{ ml: 1 }} />
+            ) : (
+              <DeleteIcon fontSize="inherit" />
+            )}
+          </IconButton>
+        </Tooltip>
+      </Box>
+
       <Dialog
         open={openDialog}
         onClose={handleClickCloseDialog}

@@ -9,6 +9,8 @@ import {
   DialogTitle,
   Box,
   CircularProgress,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
 import EventRepeatIcon from '@mui/icons-material/EventRepeat';
 import { useState } from 'react';
@@ -31,24 +33,44 @@ const ReopenSiteButton = ({ siteId }: { siteId: number }) => {
   return (
     <>
       <Box
-        sx={{ flex: { xs: '1', md: '0' } }}
+        sx={{
+          marginLeft: { xs: 0, md: 2 },
+          marginRight: { xs: 0, md: 2 },
+        }}
         p={0}
         mb={2}
-        marginLeft={2}
-        marginRight={2}
       >
-        <Button
-          fullWidth
-          variant="contained"
-          color="primary"
-          startIcon={<EventRepeatIcon />}
-          onClick={handleClickOpen}
-          disabled={dialogOpen}
-          sx={{ whiteSpace: 'nowrap' }}
-        >
-          Reopen Site
-          {dialogOpen && <CircularProgress size={20} sx={{ ml: 1 }} />}
-        </Button>
+        <Box display={{ xs: 'none', md: 'block' }}>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            startIcon={<EventRepeatIcon />}
+            onClick={handleClickOpen}
+            disabled={dialogOpen}
+            sx={{ whiteSpace: 'nowrap' }}
+          >
+            Reopen Site
+            {dialogOpen && <CircularProgress size={20} sx={{ ml: 1 }} />}
+          </Button>
+        </Box>
+        <Box display={{ xs: 'block', md: 'none' }}>
+          <Tooltip title="Reopen">
+            <IconButton
+              aria-label="delete site"
+              color="primary"
+              size="large"
+              disabled={dialogOpen}
+              onClick={handleClickOpen}
+            >
+              {dialogOpen ? (
+                <CircularProgress size={20} sx={{ ml: 1 }} />
+              ) : (
+                <EventRepeatIcon fontSize="inherit" />
+              )}
+            </IconButton>
+          </Tooltip>
+        </Box>
       </Box>
       <Dialog open={dialogOpen} onClose={handleClose}>
         <DialogTitle id="end-site-dialog-title">{'Reopen Site?'}</DialogTitle>
