@@ -1,25 +1,23 @@
+import CancelButton from '@/app/_components/CancelButton';
 import prisma from '@/prisma/client';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import EditIcon from '@mui/icons-material/Edit';
 import {
-  Container,
   Button,
-  Paper,
-  TableContainer,
-  Table,
-  TableRow,
-  TableCell,
-  TableBody,
-  Typography,
   Card,
+  Container,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import EditIcon from '@mui/icons-material/Edit';
-import React from 'react';
-import DeleteUserButton from '../_components/DeleteUserButton';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import ChangePasswordButton from '../_components/ChangePasswordButton';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import BackButton from '@/app/_components/BackButton';
+import DeleteUserButton from '../_components/DeleteUserButton';
 
 interface Props {
   params: { id: string };
@@ -106,7 +104,7 @@ const UserPage = async ({ params }: Props) => {
         </Grid>
         <Grid container spacing={2}>
           <Grid flexGrow={1}>
-            <BackButton label="Back" icon={<KeyboardDoubleArrowLeftIcon />} />
+            <CancelButton />
           </Grid>
           <Grid flexGrow={1}>
             <Link href={`/users/${user.id}/edit`} passHref>

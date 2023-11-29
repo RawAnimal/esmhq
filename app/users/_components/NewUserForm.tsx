@@ -1,19 +1,17 @@
 'use client';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { User } from '@prisma/client';
-import { userSchema } from '@/app/utilities/validationSchemas';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import { TextFieldElement, SelectElement } from 'react-hook-form-mui';
-import { Container, Alert, Button, CircularProgress } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
-import BackButton from '@/app/_components/BackButton';
-import CancelIcon from '@mui/icons-material/Cancel';
-import SaveIcon from '@mui/icons-material/Save';
+import CancelButton from '@/app/_components/CancelButton';
 import { roles } from '@/app/utilities/RoleList';
+import { userSchema } from '@/app/utilities/validationSchemas';
+import { zodResolver } from '@hookform/resolvers/zod';
+import SaveIcon from '@mui/icons-material/Save';
+import { Alert, Button, CircularProgress, Container } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { SelectElement, TextFieldElement } from 'react-hook-form-mui';
+import { z } from 'zod';
 
 type NewUserForm = z.infer<typeof userSchema>;
 
@@ -130,7 +128,7 @@ const NewUserForm = () => {
           </Grid>
           <Grid container spacing={2}>
             <Grid flexGrow={1}>
-              <BackButton label="Cancel" icon={<CancelIcon />} />
+              <CancelButton />
             </Grid>
             <Grid flexGrow={1}>
               <Button

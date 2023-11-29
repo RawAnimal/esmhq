@@ -1,5 +1,4 @@
 'use client';
-import BackButton from '@/app/_components/BackButton';
 import { assignments } from '@/app/utilities/AssignmentList';
 import { assignmentTypes } from '@/app/utilities/AssignmentTypeList';
 import { provinces } from '@/app/utilities/ProvinceList';
@@ -34,6 +33,7 @@ import {
 import { z } from 'zod';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useSession } from 'next-auth/react';
+import CancelButton from '@/app/_components/CancelButton';
 
 type SiteForm = z.infer<typeof siteSchema>;
 type SiteFormMinus = Omit<SiteForm, 'startDate'>;
@@ -403,7 +403,7 @@ const NewSitePage = () => {
               <Grid container flex={1}>
                 <Grid xs={12} md={6}>
                   <Box m={1} flexGrow={1}>
-                    <BackButton label="Cancel" icon={<CancelIcon />} />
+                    <CancelButton />
                   </Box>
                 </Grid>
                 <Grid xs={12} md={6}>

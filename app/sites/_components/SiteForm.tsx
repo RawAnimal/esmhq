@@ -30,10 +30,9 @@ import { assignmentTypes } from '@/app/utilities/AssignmentTypeList';
 import { siteSchema } from '@/app/utilities/validationSchemas';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import BackButton from '@/app/_components/BackButton';
-import CancelIcon from '@mui/icons-material/Cancel';
 import SaveIcon from '@mui/icons-material/Save';
 import { useSession } from 'next-auth/react';
+import CancelButton from '@/app/_components/CancelButton';
 
 type SiteForm = z.infer<typeof siteSchema>;
 type SiteFormMinus = Omit<SiteForm, 'startDate'>;
@@ -414,7 +413,7 @@ const SiteForm = ({ site, reopen }: { site?: Site; reopen?: boolean }) => {
               <CardActions>
                 <Grid xs={12} md={6}>
                   <Box m={1} flexGrow={1}>
-                    <BackButton />
+                    <CancelButton />
                   </Box>
                 </Grid>
                 <Grid xs={12} md={6}>

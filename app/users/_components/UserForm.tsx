@@ -21,6 +21,7 @@ import BackButton from '@/app/_components/BackButton';
 import CancelIcon from '@mui/icons-material/Cancel';
 import SaveIcon from '@mui/icons-material/Save';
 import { roles } from '@/app/utilities/RoleList';
+import CancelButton from '@/app/_components/CancelButton';
 
 type UserForm = z.infer<typeof userPatchSchema>;
 
@@ -142,7 +143,7 @@ const UserForm = ({ user }: { user: User }) => {
           </Grid>
           <Grid container spacing={2}>
             <Grid flexGrow={1}>
-              <BackButton label="Cancel" icon={<CancelIcon />} />
+              <CancelButton />
             </Grid>
             <Grid flexGrow={1}>
               <Button
