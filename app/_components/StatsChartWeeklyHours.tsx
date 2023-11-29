@@ -16,7 +16,6 @@ import dayjs from 'dayjs';
 import { useState, useEffect } from 'react';
 import {
   ResponsiveContainer,
-  BarChart,
   XAxis,
   YAxis,
   Bar,
