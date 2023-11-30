@@ -17,7 +17,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import IconESMSheild from '@/app/icons/IconESMSheild';
 import Link from 'next/link';
-import { signOut, useSession, signIn } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import ThemeToggle from './ThemeToggle';
 
@@ -86,6 +86,42 @@ function NavBar() {
     return 'mobileLink';
   };
 
+  const showManageButton = (role: string | undefined) => {
+    if (role === 'WEBADMIN' || role === 'WEBUSER') {
+      return (
+        <Button
+          onClick={handleCloseNavMenu}
+          className={getActiveClass('/manage')}
+          href="/manage"
+        >
+          <Typography color="#FFFFFF" fontWeight="600">
+            Manage
+          </Typography>
+        </Button>
+      );
+    }
+  };
+
+  const showManageLink = (role: string | undefined) => {
+    if (role === 'WEBADMIN' || role === 'WEBUSER') {
+      return (
+        <MuiLink
+          href="/manage"
+          sx={{ fontWeight: 600, textDecoration: 'none' }}
+          underline="none"
+        >
+          <MenuItem
+            onClick={handleCloseNavMenu}
+            className={getMobileActiveClass('/manage')}
+            sx={{ minWidth: 150 }}
+          >
+            <Typography fontWeight="600">Manage</Typography>
+          </MenuItem>
+        </MuiLink>
+      );
+    }
+  };
+
   return (
     <Box display={session?.user ? 'block' : 'none'}>
       <AppBar position="static">
@@ -95,8 +131,6 @@ function NavBar() {
               <Link href={'/'}>
                 <IconESMSheild
                   fSize="large"
-                  //shieldFill="#db792d"
-                  //crossFill="#646569"
                   shieldFill="#FFFFFF"
                   crossFill="#FFFFFF"
                   strokeColor="#FFFFFF"
@@ -165,6 +199,7 @@ function NavBar() {
                     <Typography fontWeight="600">Sites</Typography>
                   </MenuItem>
                 </MuiLink>
+                {showManageLink(session?.user.role)}
                 {session?.user.role === 'WEBADMIN' && (
                   <MuiLink
                     href="/users"
@@ -233,11 +268,11 @@ function NavBar() {
                   </Typography>
                 </Button>
               )}
+              {showManageButton(session?.user.role)}
             </Box>
             <Box sx={{ flexGrow: 0 }}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar
-                  //variant="rounded"
                   {...stringAvatar(
                     session?.user.firstName + ' ' + session?.user.lastName
                   )}
@@ -305,7 +340,6 @@ function NavBar() {
                     sx={{ fontWeight: 600, textDecoration: 'none' }}
                     underline="none"
                     href="#"
-                    //component="button"
                     onClick={() => {
                       signOut();
                     }}
